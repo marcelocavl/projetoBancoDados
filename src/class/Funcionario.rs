@@ -127,6 +127,9 @@ impl Funcionario {
 		true
 	}
 
+	/******************************
+			FUNCOES PRINT	
+	******************************/
 	pub fn print(&self){
 		println!("ID:{}",self.get_id());
 		println!("NOME:{}",self.get_nome());
