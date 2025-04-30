@@ -1,7 +1,8 @@
 //departamento da empresa
+
 pub struct Departamento {
-    pub id:					u32,     //id **UNICO** de cada departamento
-    pub nome: 	 String,     //nome do departamento
+    pub id: u32,             //id **UNICO** de cada departamento
+    pub nome: String,        //nome do departamento
     pub id_gerente: u32,     //id do gerente responsável pelo departamento
 }
 
@@ -16,7 +17,7 @@ impl Departamento {
     }
 
     /******************************
-            FUNCOES GET
+            FUNCOES GET    
     ******************************/
     //funcao retorna id do departamento
     pub fn get_id(&self) -> &u32 {
@@ -34,7 +35,7 @@ impl Departamento {
     }
 
     /******************************
-            FUNCOES SET
+            FUNCOES SET    
     ******************************/
     //funcao altera o id do departamento
     pub fn set_id(&mut self, id: u32) -> bool {
@@ -55,11 +56,14 @@ impl Departamento {
     }
 
     /******************************
-            FUNCAO PRINT
+            FUNCAO PRINT    
     ******************************/
     //funcao imprime os dados do departamento
     pub fn print(&self) {
         println!("ID: {}", self.get_id());
         println!("NOME: {}", self.get_nome());
         println!("ID GERENTE: {}", self.get_id_gerente());
-        println
+				println!("----------------------------");
+		}
+
+}

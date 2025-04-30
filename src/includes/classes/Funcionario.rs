@@ -1,7 +1,9 @@
 //funcionario da empresa
+
+
 pub  struct Funcionario {
      id: 							u32,	//id **UNICO** de cada funcionario
-		 nome:				 String,	//nome do usuario
+		 nome:				 String,
      cpf: 		 	 	 String,	//cpf **UNICO** do usuario
      endereco: 	 	 String,	//endereco do usuario
      salario: 				f64,	//salario do usuario
@@ -127,9 +129,6 @@ impl Funcionario {
 		true
 	}
 
-	/******************************
-			FUNCOES PRINT	
-	******************************/
 	pub fn print(&self){
 		println!("ID:{}",self.get_id());
 		println!("NOME:{}",self.get_nome());
@@ -143,3 +142,4 @@ impl Funcionario {
 	}
 				
 }
+

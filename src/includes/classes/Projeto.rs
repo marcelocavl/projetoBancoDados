@@ -1,10 +1,10 @@
 //projeto da empresa
 
 pub struct Projeto {
-    pub id_projeto: 		 u32,    //id **UNICO** do projeto
+    pub id_projeto: u32,         //id **UNICO** do projeto
     pub nome_projeto: String,    //nome do projeto
     pub id_departamento: u32,    //id do departamento responsável pelo projeto
-    pub local: 				String,    //local onde o projeto está sendo desenvolvido
+    pub local: String,           //local onde o projeto está sendo desenvolvido
 }
 
 impl Projeto {
@@ -19,7 +19,7 @@ impl Projeto {
     }
 
     /******************************
-            FUNCOES GET
+            FUNCOES GET    
     ******************************/
     //funcao retorna id do projeto
     pub fn get_id_projeto(&self) -> &u32 {
@@ -42,7 +42,7 @@ impl Projeto {
     }
 
     /******************************
-            FUNCOES SET
+            FUNCOES SET    
     ******************************/
     //funcao altera id do projeto
     pub fn set_id_projeto(&mut self, id_projeto: u32) -> bool {
@@ -69,7 +69,7 @@ impl Projeto {
     }
 
     /******************************
-            FUNCAO PRINT
+            FUNCAO PRINT    
     ******************************/
     //funcao imprime os dados do projeto
     pub fn print(&self) {
@@ -80,3 +80,4 @@ impl Projeto {
         println!("----------------------------");
     }
 }
+

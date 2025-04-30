@@ -1,7 +1,8 @@
 //relacao entre funcionario e projeto
+
 pub struct FuncionarioProjeto {
     pub id_funcionario: u32, //id do funcionario que participa do projeto
-    pub id_projeto: 		u32, //id do projeto no qual o funcionario trabalha
+    pub id_projeto: u32,     //id do projeto no qual o funcionario trabalha
 }
 
 impl FuncionarioProjeto {
@@ -14,7 +15,7 @@ impl FuncionarioProjeto {
     }
 
     /******************************
-            FUNCOES GET
+            FUNCOES GET    
     ******************************/
     //funcao retorna o id do funcionario
     pub fn get_id_funcionario(&self) -> &u32 {
@@ -27,7 +28,7 @@ impl FuncionarioProjeto {
     }
 
     /******************************
-            FUNCOES SET
+            FUNCOES SET    
     ******************************/
     //funcao altera o id do funcionario
     pub fn set_id_funcionario(&mut self, id_funcionario: u32) -> bool {
@@ -42,7 +43,7 @@ impl FuncionarioProjeto {
     }
 
     /******************************
-            FUNCAO PRINT
+            FUNCAO PRINT    
     ******************************/
     //funcao imprime os dados da relacao funcionario-projeto
     pub fn print(&self) {
@@ -51,3 +52,4 @@ impl FuncionarioProjeto {
         println!("----------------------------");
     }
 }
+
