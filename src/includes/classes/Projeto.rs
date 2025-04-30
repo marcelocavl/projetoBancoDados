@@ -73,11 +73,31 @@ impl Projeto {
     ******************************/
     //funcao imprime os dados do projeto
     pub fn print(&self) {
-        println!("ID PROJETO: {}", self.get_id_projeto());
-        println!("NOME PROJETO: {}", self.get_nome_projeto());
-        println!("ID DEPARTAMENTO: {}", self.get_id_departamento());
-        println!("LOCAL: {}", self.get_local());
+				self.print_id_projeto();
+				println!("");
+				self.print_nome_projeto();
+				println!("");
+				self.print_id_departamento();
+				println!("");
+				self.print_local();
+				println!("");
         println!("----------------------------");
+    }
+	//funcao para printar id do projeto
+		pub fn print_id_projeto(&self){	
+        print!("ID PROJETO: {}", self.get_id_projeto());
+		}
+	//funcao para printar nome do projeto	
+		pub fn print_nome_projeto(&self){
+        print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
+		}
+	//funcao para printar id do departamento
+		pub fn print_id_departamento(&self){
+        print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
+		}
+	//funcao para printar local
+		pub fn print_local(&self){
+        print!("LOCAL: {}", self.get_local());
     }
 }
 

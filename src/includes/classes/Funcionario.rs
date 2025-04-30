@@ -81,6 +81,7 @@ impl Funcionario {
 	/******************************
 			FUNCOES SET	
 	******************************/
+
 	//funcao retorna id do funcionario
 	pub fn set_id(&mut self,id:u32)->bool{
 		self.id=id;		
@@ -129,17 +130,70 @@ impl Funcionario {
 		true
 	}
 
+	/******************************
+			FUNCOES PRINT	
+	******************************/
+//funcao para printar o usuario
 	pub fn print(&self){
-		println!("ID:{}",self.get_id());
-		println!("NOME:{}",self.get_nome());
-		println!("CPF:{}",self.get_cpf());
-		println!("ENDERECO:{}",self.get_endereco());
-		println!("GENERO:{}",self.get_genero());
-		println!("SALARIO:{}",self.get_salario());
-		println!("NASCIMENTO:{}",self.get_nascimento());
-		println!("ID DEPARTAMENTO:{}",self.get_id_departamento());
+		self.print_id();
+		println!("");
+		self.print_nome();
+		println!("");
+		self.print_cpf();
+		println!("");
+		self.print_endereco();
+		println!("");
+		self.print_genero();	
+		println!("");
+		self.print_salario();
+		println!("");
+		self.print_nascimento();
+		println!("");
+		self.print_id_departamento();
+		println!("");
 		println!("----------------------------");
 	}
-				
+
+//funcao para printar id funcionario
+	pub fn print_id(&self){
+					print!("ID:{}",self.get_id());
+	}
+
+//funcao para printar nome funcionario
+	pub fn print_nome(&self){
+					print!("NOME:{}",self.get_nome());
+	}
+
+//funcao para printar cpf usuario	
+	pub fn print_cpf(&self){
+					print!("CPF:{}",self.get_cpf());
+	}
+
+//funcao para printar endereco usuario
+	pub fn print_endereco(&self){
+					print!("ENDERECO:{}",self.get_endereco());
+	}
+
+//funcao para printar genero usuario
+	pub fn print_genero(&self){
+					print!("GENERO:{}",self.get_genero());
+	}
+
+//funcao para printar salario usuario
+	pub fn print_salario(&self){
+					print!("SALARIO:{}",self.get_salario());
+	}
+
+//funcao para printar nascimento usuario
+	pub fn print_nascimento(&self){
+					print!("NASCIMENTO:{}",self.get_nascimento());
+	}
+
+//funcao para printar id do departamento do usuario
+	pub fn print_id_departamento(&self){
+					print!("ID DEPARTAMENTO:{}",self.get_id_departamento());
+	}
+
+
 }
 
