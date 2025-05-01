@@ -1,6 +1,6 @@
 //funcionario da empresa
 
-
+#[derive(Clone)]
 pub  struct Funcionario {
      id: 							u32,	//id **UNICO** de cada funcionario
 		 nome:				 String,
@@ -156,7 +156,7 @@ impl Funcionario {
 
 //funcao para printar id funcionario
 	pub fn print_id(&self){
-					print!("ID:{}",self.get_id());
+					print!("ID FUNCIONARIO:{}",self.get_id());
 	}
 
 //funcao para printar nome funcionario

@@ -1,8 +1,3 @@
-/*!!!!!!!!!!!!!!!!!!
-	AINDA ESTOU IMPLEMENTANDO
-	PROVAVELMENTE COM ALGUNS ERROS
-!!!!!!!!!!!!!!!!!!!*/
-
 use crate::includes::classes::Funcionario::Funcionario;
 use crate::includes::classes::Projeto::Projeto;
 
@@ -79,11 +74,8 @@ impl FuncionarioProjeto {
     /******************************
      	FUNCOES DE RETIRAR RELACAO
     ******************************/
-/*
 		pub fn remover_relacao(&mut self,novo_funcionario:Funcionario,novo_projeto:Projeto)->bool{
 	
-			//let ids_funcionarios=self.get_ids_funcionarios();	//variável com vetor de funcionarios da tabela
-			//let ids_projetos=self.get_ids_projetos();					//variável com vetor de projetos da tabela
 			
 			self.get_ids_funcionarios().pop(novo_funcionario);	
 			self.get_ids_projetos().pop(novo_projeto);
@@ -91,35 +83,26 @@ impl FuncionarioProjeto {
 				
 		}
 
-*/
 
     /******************************
             FUNCAO PRINT    
     ******************************/
 /*
-    //funcao imprime os dados da relacao funcionario-projeto
-    pub fn print(&self) {
-        println!("ID FUNCIONARIO: {}", self.get_ids_funcionarios());
-        println!("ID PROJETO: {}", self.get_ids_projetos());
-        println!("----------------------------");
-    }
+	A FUNCAO ESTÁ FUNCIONANDO COM UM POUCO DE GAMBIARRA, NÃO IREI GASTAR MUITO TEMPO TENTANDO FAZER UMA SOLUÇÃO MAIS IDIOMATICA
+
+	basicamente o rust não aceita multiplos borrows mutáveis dentro da função( não entendi muito bem,caso fosse eu atrás poderia perder mais tempo). Então utilizei o método clone para me livrar desse problema.
 */
-/*!!!!!!!!!!!!!!!!!!
-	FALTA RESOLVER PROBLEMA DOS MULTIPLOS BOROWS MUTÁVEIS
-	O RUST N ACEITA EM UMA FUNÇÃO HAVER MULTIPLOS BORROWS MUTÁVEIS
-!!!!!!!!!!!!!!!!!!!*/
-
-
 	 pub fn print_ids_funcionarios_e_projetos(&mut self){
-			 let mut ids_funcionarios=self.get_ids_funcionarios();	//vetor de ids de funcionarios
-			 let mut ids_projetos=self.get_ids_projetos();					//vetor de ids de projetos
-	 		 let num_relacoes=self.get_num_relacoes(); 							//numero de relacoes da tabela funcionario-projeto
-			 let cont:usize=0;													 						//contador do loop while
+			 let mut ids_funcionarios=self.get_ids_funcionarios().clone();	//vetor de ids de funcionarios
+			 let mut ids_projetos=self.get_ids_projetos().clone();					//vetor de ids de projetos
+	 		 let mut num_relacoes=self.get_num_relacoes().clone(); 					//numero de relacoes da tabela funcionario-projeto
+			 let mut cont:usize=0;													 								//contador do loop while
 			
-			 while cont<*num_relacoes{
+			 while cont<num_relacoes{
 			  ids_funcionarios[cont].print_id();
 				print!("||");
 			  ids_projetos[cont].print_id_projeto();
+				println!("");
 				cont+=1;
 			 }
  	 }	

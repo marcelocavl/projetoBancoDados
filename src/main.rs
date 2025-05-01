@@ -7,7 +7,7 @@ use includes::Funcionario_Projeto::FuncionarioProjeto;
 
 fn main() {
 	let mut func1=Funcionario::new(
-														32,
+														402,
 														String::from("fulano"),
 														String::from("123"),
 														String::from("rua ifce"),
@@ -42,21 +42,16 @@ fn main() {
 	let mut ids_funcionarios:Vec<Funcionario>=Vec::new();
 	let mut ids_projetos:Vec<Projeto>=Vec::new();
 
-
-	ids_funcionarios.push(func1);
-	ids_funcionarios.push(func2);
-
-	ids_projetos.push(proj1);
-	ids_projetos.push(proj2);
-
 	
 	let mut func_proj=FuncionarioProjeto::new(
 																		ids_funcionarios,
 																		ids_projetos,
 																		0);
 
-	
-	let mut vetor_ids_funcs=func_proj.get_ids_funcionarios();
+	func_proj.adicionar_relacao(func1,proj1);
+	func_proj.adicionar_relacao(func2,proj2);
 
-	vetor_ids_funcs[1].print();
+	func_proj.print_ids_funcionarios_e_projetos();
+
+
 }

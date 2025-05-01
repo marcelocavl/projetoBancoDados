@@ -1,5 +1,6 @@
 //projeto da empresa
 
+#[derive(Clone)]
 pub struct Projeto {
     pub id_projeto: u32,         //id **UNICO** do projeto
     pub nome_projeto: String,    //nome do projeto
