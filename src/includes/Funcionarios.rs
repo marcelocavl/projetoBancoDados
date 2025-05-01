@@ -44,8 +44,10 @@ impl Funcionarios {
 		//funcao para adicionar funcionario na lista
 		pub fn adicionar_funcionario(&mut self,funcionario:Funcionario)->bool{
 			self.get_lista().push(funcionario);	
+			self.incrementa_num_funcionario();
 			true
 		}
+
 		//funcao para incrementar numero de funcionarios
 		pub fn incrementa_num_funcionario(&mut self){		
 			self.num_funcionarios+=1;

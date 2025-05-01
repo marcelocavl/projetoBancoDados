@@ -27,7 +27,7 @@ fn main() {
 														String::from("12/2/12")
 														,23);
 
-
+/*
 	let mut func3=Funcionario::new(
 														32,
 														String::from("cicrano"),
@@ -79,6 +79,11 @@ fn main() {
 	tab_func.adicionar_funcionario(func2);		
 	tab_func.adicionar_funcionario(func3);		
 	tab_func.print_lista();
+	println!("{}",tab_func.get_num_funcionarios());
+*/
 
+	func1.print();
+	func1.set_id(95);
+	func1.print();
 
 }
