@@ -39,43 +39,43 @@ impl Funcionario {
 			FUNCOES GET	
 	******************************/
 	//funcao retorna id do funcionario
-	pub fn get_id(&self)->&u32{
-		&self.id
+	pub fn get_id(&mut self)->&mut u32{
+		&mut self.id
 	}
 
 	//funcao retorna nome do funcionario
-	pub fn get_nome(&self)->&String{
-		&self.nome
+	pub fn get_nome(&mut self)->&mut String{
+		&mut self.nome
 	}
 
 	//funcao retorna cpf do funcionario
-	pub fn get_cpf(&self)->&String{
-		&self.cpf
+	pub fn get_cpf(&mut self)->&mut String{
+		&mut self.cpf
 	}
 
 	//funcao retorna id do funcionario
-	pub fn get_endereco(&self)->&String{
-		&self.endereco
+	pub fn get_endereco(&mut self)->&mut String{
+		&mut self.endereco
 	}
 
 	//funcao retorna id do funcionario
-	pub fn get_salario(&self)->&f64{
-		&self.salario
+	pub fn get_salario(&mut self)->&mut f64{
+		&mut self.salario
 	}
 
 	//funcao retorna id do funcionario
-	pub fn get_genero(&self)->&char{
-		&self.genero
+	pub fn get_genero(&mut self)->&mut char{
+		&mut self.genero
 	}
 
 	//funcao retorna id do funcionario
-	pub fn get_nascimento(&self)->&String{
-		&self.nascimento
+	pub fn get_nascimento(&mut self)->&mut String{
+		&mut self.nascimento
 	}
 
 	//funcao retorna id do funcionario
-	pub fn get_id_departamento(&self)->&u32{
-		&self.id_departamento
+	pub fn get_id_departamento(&mut self)->&mut u32{
+		&mut self.id_departamento
 	}
 
 	/******************************
@@ -129,12 +129,44 @@ impl Funcionario {
 		self.id_departamento=id_departamento;
 		true
 	}
+	/******************************
+			FUNCOES DE COMPARACAO
+	******************************/
+	//funcao de comparar dois funcionarios
+	pub fn cmp_funcionarios(&mut self,funcionario:&mut Funcionario)->bool{
+		if self.get_id() != funcionario.get_id(){
+			return false;
+		}
+		if self.get_nome() != funcionario.get_nome(){
+			return false;
+		}
+		if self.get_cpf() != funcionario.get_cpf(){
+			return false;
+		}
+		if self.get_endereco() != funcionario.get_endereco(){
+			return false;
+		}
+		if self.get_salario() != funcionario.get_salario(){
+			return false;
+		}
+		if self.get_genero() != funcionario.get_genero(){
+			return false;
+		}
+		if self.get_nascimento() != funcionario.get_nascimento(){
+			return false;
+		}
+		if self.get_id_departamento() != funcionario.get_id_departamento(){
+			return false;
+		}
+		true
+
+	}
 
 	/******************************
 			FUNCOES PRINT	
 	******************************/
 //funcao para printar o usuario
-	pub fn print(&self){
+	pub fn print(&mut self){
 		self.print_id();
 		println!("");
 		self.print_nome();
@@ -155,42 +187,42 @@ impl Funcionario {
 	}
 
 //funcao para printar id funcionario
-	pub fn print_id(&self){
+	pub fn print_id(&mut self){
 					print!("ID FUNCIONARIO:{}",self.get_id());
 	}
 
 //funcao para printar nome funcionario
-	pub fn print_nome(&self){
+	pub fn print_nome(&mut self){
 					print!("NOME:{}",self.get_nome());
 	}
 
 //funcao para printar cpf usuario	
-	pub fn print_cpf(&self){
+	pub fn print_cpf(&mut self){
 					print!("CPF:{}",self.get_cpf());
 	}
 
 //funcao para printar endereco usuario
-	pub fn print_endereco(&self){
+	pub fn print_endereco(&mut self){
 					print!("ENDERECO:{}",self.get_endereco());
 	}
 
 //funcao para printar genero usuario
-	pub fn print_genero(&self){
+	pub fn print_genero(&mut self){
 					print!("GENERO:{}",self.get_genero());
 	}
 
 //funcao para printar salario usuario
-	pub fn print_salario(&self){
+	pub fn print_salario(&mut self){
 					print!("SALARIO:{}",self.get_salario());
 	}
 
 //funcao para printar nascimento usuario
-	pub fn print_nascimento(&self){
+	pub fn print_nascimento(&mut self){
 					print!("NASCIMENTO:{}",self.get_nascimento());
 	}
 
 //funcao para printar id do departamento do usuario
-	pub fn print_id_departamento(&self){
+	pub fn print_id_departamento(&mut self){
 					print!("ID DEPARTAMENTO:{}",self.get_id_departamento());
 	}
 

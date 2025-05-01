@@ -54,11 +54,8 @@ impl FuncionarioProjeto {
     /******************************
      FUNCOES DE ADICIONAR RELACAO
     ******************************/
+		//funcao para adicionar relacao funcionario-projeto na lista
 		pub fn adicionar_relacao(&mut self,novo_funcionario:Funcionario,novo_projeto:Projeto)->bool{
-	
-			//let ids_funcionarios=self.get_ids_funcionarios();	//variável com vetor de funcionarios da tabela
-			//let ids_projetos=self.get_ids_projetos();					//variável com vetor de projetos da tabela
-			
 			self.get_ids_funcionarios().push(novo_funcionario);	
 			self.get_ids_projetos().push(novo_projeto);
 			self.incrementar_num_relacoes();
@@ -74,16 +71,28 @@ impl FuncionarioProjeto {
     /******************************
      	FUNCOES DE RETIRAR RELACAO
     ******************************/
+/**!!!!!!!!!!!!!!!!!!!!!!!!!	
+	COMENTEI A IMPLEMENTACAO DA FUNCAO DE DELETAR FUNCIONARIO POIS ESTÁ DANDO ALGUNS PROBLEMAS
+	IREI AJEITAR MAIS PRO FINAL,PARA NÃO CONSUMIR MUITO TEMPO
+!!!!!!!!!!!!!!!!!!!!!!!!!*/
+
+		//funcao para remover relacao funcionario-projeto da lista
+/*
 		pub fn remover_relacao(&mut self,novo_funcionario:Funcionario,novo_projeto:Projeto)->bool{
-	
-			
-			self.get_ids_funcionarios().pop(novo_funcionario);	
-			self.get_ids_projetos().pop(novo_projeto);
+			self.get_ids_funcionarios().retain(|x| x!= novo_funcionario);	
+			self.get_ids_projetos().retain(|x| x!= novo_projeto);
+			self.desincrementar_num_relacoes();
 			true
 				
 		}
 
+		//funcao de desincrementar o numero de relacoes
+		pub fn desincrementar_num_relacoes(&mut self){	
+			self.num_relacoes-=1
+		}
 
+
+*/
     /******************************
             FUNCAO PRINT    
     ******************************/

@@ -3,6 +3,7 @@ mod includes;
 use includes::classes::Funcionario::Funcionario;
 use includes::classes::Projeto::Projeto;
 use includes::Funcionario_Projeto::FuncionarioProjeto;
+use includes::Funcionarios::Funcionarios;
 
 
 fn main() {
@@ -17,6 +18,17 @@ fn main() {
 														,23);
 
 	let mut func2=Funcionario::new(
+														402,
+														String::from("fulano"),
+														String::from("123"),
+														String::from("rua ifce"),
+														1200.0,
+														'm',
+														String::from("12/2/12")
+														,23);
+
+
+	let mut func3=Funcionario::new(
 														32,
 														String::from("cicrano"),
 														String::from("123"),
@@ -25,6 +37,10 @@ fn main() {
 														'm',
 														String::from("12/2/12")
 														,23);
+
+//comparando os dois funcionarios
+	println!("{}",func1.cmp_funcionarios(&mut func2));
+
 
 	let mut proj1=Projeto::new(
 												 120,		
@@ -52,6 +68,5 @@ fn main() {
 	func_proj.adicionar_relacao(func2,proj2);
 
 	func_proj.print_ids_funcionarios_e_projetos();
-
 
 }
