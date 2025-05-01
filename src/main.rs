@@ -38,6 +38,7 @@ fn main() {
 														String::from("12/2/12")
 														,23);
 
+
 //comparando os dois funcionarios
 	println!("{}",func1.cmp_funcionarios(&mut func2));
 
@@ -64,9 +65,20 @@ fn main() {
 																		ids_projetos,
 																		0);
 
-	func_proj.adicionar_relacao(func1,proj1);
-	func_proj.adicionar_relacao(func2,proj2);
-
+	func_proj.adicionar_relacao(func1.clone(),proj1.clone());
+	func_proj.adicionar_relacao(func2.clone(),proj2.clone());
 	func_proj.print_ids_funcionarios_e_projetos();
+	println!("");
+
+	let mut lista_func:Vec<Funcionario>=Vec::new();	
+	let mut tab_func:Funcionarios=Funcionarios::new(
+																							lista_func,
+																							0);
+	
+	tab_func.adicionar_funcionario(func1);	
+	tab_func.adicionar_funcionario(func2);		
+	tab_func.adicionar_funcionario(func3);		
+	tab_func.print_lista();
+
 
 }

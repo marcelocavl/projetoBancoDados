@@ -55,9 +55,11 @@ impl Funcionarios {
      FUNCOES DELETAR FUNCIONARIO
     ******************************/	
 /**!!!!!!!!!!!!!!!!!!!!!!!!!	
+	FIX ME
 	COMENTEI A IMPLEMENTACAO DA FUNCAO DE DELETAR FUNCIONARIO POIS ESTÁ DANDO ALGUNS PROBLEMAS
 	IREI AJEITAR MAIS PRO FINAL,PARA NÃO CONSUMIR MUITO TEMPO
 !!!!!!!!!!!!!!!!!!!!!!!!!*/
+
 /*
 		//funcao para deletar um funcionario da lista
 		pub fn achar_funcionario(&mut self,funcionario:&mut Funcionario)->&mut Funcionario{
