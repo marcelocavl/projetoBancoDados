@@ -4,3 +4,5 @@
 pub mod classes;
 pub mod Funcionario_Projeto;
 pub mod Funcionarios;
+pub mod Menu;
+pub mod Menu2;

@@ -38,6 +38,23 @@ impl Funcionarios {
         true
     }
 
+    pub fn achar_funcionario_por_id(&mut self, id: u32) -> Option<usize> {
+        if self.lista.is_empty() {
+            return None; // Retorna None se a lista estiver vazia
+        }
+        self.lista.iter_mut().position(|funcionario: &mut Funcionario| *funcionario.get_id() == id)
+    }
+
+    pub fn deletar_funcionario_por_id(&mut self, id: u32) -> bool {
+        if let Some(pos) = self.lista.iter_mut().position(|funcionario: &mut Funcionario| *funcionario.get_id() == id) {
+            self.lista.remove(pos);
+            self.desincrementa_num_funcionario();
+            true
+        } else {
+            false // Retorna false se o funcionário com o id não foi encontrado
+        }
+    }
+
     /******************************
      FUNCOES ADICIONAR FUNCIONARIO
     ******************************/
@@ -78,13 +95,13 @@ impl Funcionarios {
 		}
 
 			
-		//funcao para desincrementar numero de funcionarios	
-		pub fn desincrementa_num_funcionario(&mut self){		
-			self.num_funcionarios-=1;
-		}
-*/
-    /******************************
-            FUNCAO PRINT
+        */
+        //funcao para desincrementar numero de funcionarios	
+        pub fn desincrementa_num_funcionario(&mut self){		
+            self.num_funcionarios-=1;
+        }
+        /******************************
+         FUNCAO PRINT
     ******************************/
     // Imprime os dados de todos os funcionarios na lista
     pub fn print_lista(&mut self) {
