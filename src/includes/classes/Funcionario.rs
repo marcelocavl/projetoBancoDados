@@ -227,5 +227,38 @@ impl Funcionario {
 	}
 
 
+  //funcao de colocar atributos do funcionario em uma string unica
+  pub fn colocar_atributos_em_string(&mut self)->String{
+    let mut atributos:String=String::new(); //instanciei uma string vazia
+
+    let string_id:String=self.get_id().to_string().clone();  //transformando id:u32 em id:String
+    let str_id:&str=&string_id;                              //transformando id:String em id:&str
+
+    let string_id_departamento:String=self.get_id_departamento().to_string().clone(); //transformando id_departamento:u32 em String
+    let str_id_departamento:&str=&string_id_departamento;                             //transformando id_departamento:String em &str
+
+    let nome:&str=&self.get_nome().clone();
+    let cpf:&str=&self.get_cpf().clone();
+    let endereco:&str=&self.get_endereco().clone();
+    let gender:char=self.get_genero().clone();
+    let nascimento:&str=&self.get_nascimento().clone();
+
+    atributos.push_str(str_id);
+    atributos.push(',');
+    atributos.push_str(nome);
+    atributos.push(',');
+    atributos.push_str(cpf);
+    atributos.push(',');
+    atributos.push_str(endereco);
+    atributos.push(',');
+    atributos.push(gender);
+    atributos.push(',');
+    atributos.push_str(nascimento);
+    atributos.push(',');
+    atributos.push_str(str_id_departamento);
+    
+    atributos
+
+  }
 }
 
