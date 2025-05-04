@@ -4,8 +4,7 @@ use includes::Funcionario_Projeto::FuncionarioProjeto;
 use includes::Funcionarios::Funcionarios;
 use includes::classes::Funcionario::Funcionario;
 use includes::classes::Projeto::Projeto;
-use includes::Menu;
-use includes::Menu2;
+use includes::{Menu, Menu2};
 
 fn main() {
     // let mut func1 = Funcionario::new(
@@ -89,6 +88,8 @@ fn main() {
 		match opcao {
 			1 => {
 				let caminho = "./funcionarios.txt";
+				// let lista_funcionarios = Funcionarios::new(Vec::new(), 0);
+				// Menu::gerenciar_funcionarios(caminho, lista_funcionarios).unwrap();
 				Menu2::gerenciar_funcionarios(caminho).unwrap();
 			}
 			2 => {
