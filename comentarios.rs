@@ -164,3 +164,28 @@ fn criar_arquivo(caminho: &str) -> io::Result<()> {
 //funcao para printar nome do projeto
 //funcao para printar local
 //funcao para printar id do departamento
+
+
+// main antiga
+//mod includes;
+// mod menu;
+
+// // use includes::Funcionario_Projeto::FuncionarioProjeto;
+// // use includes::Funcionarios::Funcionarios;
+// // use menu::*;
+// use includes::classes::Funcionario::Funcionario;
+// use includes::classes::Departamento::Departamento;
+// use includes::classes::Projeto::Projeto;
+// // use includes::editores_txt::funcionarios_arquivotxt::funcionarios_arquivotxt;
+
+// fn main() {
+//     let funcionarios: Vec<Funcionario> = Vec::new();
+//     // let lista_func: Funcionarios = Funcionarios::new(vec_func, 0);
+//     let path_funcionarios: &str = "./src/arquivos_txt/funcionarios.txt";
+
+//     // let mut func_arquivotxt = funcionarios_arquivotxt::new(lista_func, path);
+
+//     while true {
+//         // criar_funcionario(&mut func_arquivotxt);
+//     }
+// }

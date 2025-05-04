@@ -1,21 +1,129 @@
 mod includes;
-mod menu;
+// mod menu;
+mod crud;
+use crud::*;
 
-use includes::Funcionario_Projeto::FuncionarioProjeto;
-use includes::Funcionarios::Funcionarios;
-use includes::classes::Funcionario::Funcionario;
-use includes::classes::Projeto::Projeto;
-use includes::editores_txt::funcionarios_arquivotxt::funcionarios_arquivotxt;
-use menu::*;
+use std::io::{self, Write};
 
-fn main() {
-    let vec_func: Vec<Funcionario> = Vec::new();
-    let lista_func: Funcionarios = Funcionarios::new(vec_func, 0);
-    let path: &str = "./src/arquivos_txt/funcionarios.txt";
+fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
+    // let (mut funcionarios, mut proximo_id) = carregar_funcionarios(caminho)?;
+    
+    loop {
+        println!("\n========= FUNCIONÁRIOS =========");
+        println!("1 - Listar funcionários");
+        println!("2 - Criar funcionário");
+        println!("3 - Editar funcionário");
+        println!("4 - Remover funcionário");
+        println!("0 - Sair");
+        print!("Escolha uma opção: ");
+        io::stdout().flush()?;
+    
+        let mut opcao = String::new();
+        io::stdin().read_line(&mut opcao)?;
+        let op: &str = opcao.trim();
 
-    let mut func_arquivotxt = funcionarios_arquivotxt::new(lista_func, path);
+        match op {
+            "1" => {
+                // listar_funcionarios(&funcionarios);
+            }
+            "2" => {
+                // criar_funcionario(&mut funcionarios, &mut proximo_id);
+            }
+            "3" => {
+                // listar_funcionarios(&funcionarios);
+				// 	let id: u32 = ler_input("\nDigite o ID do funcionário que deseja atualizar: ")
+				// 	.parse()
+				// 	.unwrap_or(0);
+            	// atualizar_funcionario_por_id(&mut funcionarios, id);
+            }
+            "4" => {
+                // listar_funcionarios(&funcionarios);
+                // let id: u32 = ler_input("\nDigite o ID do funcionário que deseja remover: ")
+                //     .parse()
+                //     .unwrap_or(0);
+                // remover_funcionario_por_id(&mut funcionarios, id);
+            }
+            "0" => {
+                println!("\nSalvar as alterações?");
+                println!("1 - Sim, salvar alterações");
+                println!("2 - Não, descartar alterações");
+                println!("0 - Cancelar");
+                print!("Escolha uma opção: ");
+                io::stdout().flush()?;
+                
+                opcao.clear();
+                io::stdin().read_line(&mut opcao)?;
+                let op = opcao.trim();
 
-    while true {
-        criar_funcionario(&mut func_arquivotxt);
+                match op {
+                    "1" => {
+                        // salvar_funcionarios(caminho, &funcionarios, proximo_id)?;
+                        println!("Alterações salvas. Saindo...");
+                        break;
+                    }
+                    "2" => {
+                        println!("Alterações descartadas. Saindo...");
+                        break;
+                    }
+                    "0" => {}
+                    _ => println!("Opção inválida."),
+                }
+            }
+            _ => println!("Opção inválida."),
+        }
     }
+    Ok(())
+}
+
+fn gerenciar_projetos(caminho: &str) -> io::Result<()> {
+	// Menu de gerenciamento de projetos
+	Ok(())
+}
+
+fn gerenciar_departamentos(caminho: &str) -> io::Result<()> {
+	// Menu de gerenciamento de departamentos
+	Ok(())
+}
+
+fn main() -> std::io::Result<()> {
+
+	// Criar arquivos .txt caso não existam
+    let caminho_funcionarios: &str = "funcionarios.txt";
+    let caminho_projetos: &str = "projetos.txt";
+    let caminho_departamentos: &str = "departamentos.txt";
+    criar_arquivo(caminho_funcionarios)?;
+    criar_arquivo(caminho_projetos)?;
+    criar_arquivo(caminho_departamentos)?;
+
+	// Menu principal de gerenciamento
+    loop {
+        println!("\n========= GERENCIAR EMPRESA =========");
+        println!("1 - Gerenciar funcionários");
+        println!("0 - Sair");
+        print!("Escolha uma opção: ");
+        io::stdout().flush()?;
+        
+        let mut opcao: String = String::new();
+        io::stdin().read_line(&mut opcao)?;
+        let opcao: &str = opcao.trim();
+
+        match opcao {
+            "1" => {
+                gerenciar_funcionarios(caminho_funcionarios)?;
+            }
+            "2" => {
+                gerenciar_projetos(caminho_projetos)?;
+            }
+            "3" => {
+                gerenciar_departamentos(caminho_departamentos)?;
+            }
+            "0" => {
+                println!("Encerrando...");
+                break;
+            }
+            _ => println!("Opção inválida."),
+        }
+    }
+
+    Ok(())
 }
