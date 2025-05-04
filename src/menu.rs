@@ -1,9 +1,8 @@
-
-use std::io::{self, BufRead, BufReader, Write};
-use std::fs::File;
-use std::path::Path;
 use crate::includes::classes::Funcionario::Funcionario;
 use crate::includes::editores_txt::funcionarios_arquivotxt::funcionarios_arquivotxt;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader, Write};
+use std::path::Path;
 
 fn ler_input(prompt: &str) -> String {
     print!("{}", prompt);
@@ -13,25 +12,10 @@ fn ler_input(prompt: &str) -> String {
     io::stdin().read_line(&mut entrada).unwrap();
     entrada.trim().to_string()
 }
-/*
-fn arquivo_existe(caminho: &str) -> bool {
-    Path::new(caminho).exists()
-}
 
-fn criar_arquivo(caminho: &str) -> io::Result<()> {
-    if !arquivo_existe(caminho) {
-        println!("Arquivo não encontrado. Criando arquivo '{}'.", caminho);
-        let mut file: File = File::create(caminho)?; // Cria o arquivo vazio
-        writeln!(file, "1")?; // ID inicial
-    } else {
-        println!("Arquivo '{}' já existe.", caminho);
-    }
-    Ok(())
-}
-*/
 // Operações com funcionários
 
-    pub fn criar_funcionario(funcionarios_filetxt:&mut funcionarios_arquivotxt) {
+pub fn criar_funcionario(funcionarios_filetxt: &mut funcionarios_arquivotxt) {
     println!("\nAdicione as informações do novo funcionário...");
 
     let id: u32 = ler_input("ID: ").parse().unwrap_or(0);
@@ -43,15 +27,15 @@ fn criar_arquivo(caminho: &str) -> io::Result<()> {
     let nascimento = ler_input("Nascimento (YYYY-MM-DD): ");
     let id_departamento: u32 = ler_input("ID do departamento: ").parse().unwrap_or(0);
 
-    let novo_funcionario:Funcionario=Funcionario::new(
-                                                  id,
-                                                  nome,
-                                                  cpf,
-                                                  endereco,
-                                                  salario,
-                                                  genero,
-                                                  nascimento,
-                                                  id_departamento
+    let novo_funcionario: Funcionario = Funcionario::new(
+        id,
+        nome,
+        cpf,
+        endereco,
+        salario,
+        genero,
+        nascimento,
+        id_departamento,
     );
 
     funcionarios_filetxt.adicionar_funcionario(novo_funcionario);
@@ -59,5 +43,3 @@ fn criar_arquivo(caminho: &str) -> io::Result<()> {
 
     println!("Funcionário criado com sucesso!");
 }
-    
-
