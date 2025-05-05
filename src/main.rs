@@ -146,8 +146,73 @@ fn gerenciar_projetos(caminho: &str) -> io::Result<()> {
 }
 
 fn gerenciar_departamentos(caminho: &str) -> io::Result<()> {
-	// Menu de gerenciamento de departamentos
-	Ok(())
+    let (mut departamentos, mut proximo_id) = carregar_departamentos(caminho)?;
+
+    loop {
+        println!("\n========= DEPARTAMENTOS =========");
+        println!("1 - Listar departamentos");
+        println!("2 - Criar departamento");
+        println!("3 - Editar departamento");
+        println!("4 - Remover departamento");
+        println!("0 - Sair");
+        print!("Escolha uma opção: ");
+        io::stdout().flush()?;
+
+        let mut opcao = String::new();
+        io::stdin().read_line(&mut opcao)?;
+        let op: &str = opcao.trim();
+
+        match op {
+            "1" => {
+                listar_departamentos(&mut departamentos)?;
+            }
+            "2" => {
+                adicionar_departamento_interativo(&mut departamentos, &mut proximo_id)?;
+            }
+            "3" => {
+                listar_departamentos(&mut departamentos)?;
+                let id: u32 = ler_input("Digite o ID do departamento que deseja atualizar: ")
+                    .parse()
+                    .unwrap_or(0);
+                atualizar_departamento_por_id(id, &mut departamentos)?;
+            }
+            "4" => {
+                listar_departamentos(&mut departamentos)?;
+                let id: u32 = ler_input("Digite o ID do departamento que deseja remover: ")
+                    .parse()
+                    .unwrap_or(0);
+                remover_departamento_por_id(id, &mut departamentos)?;
+            }
+            "0" => {
+                println!("\nSalvar as alterações?");
+                println!("1 - Sim, salvar alterações");
+                println!("2 - Não, descartar alterações");
+                println!("0 - Cancelar");
+                print!("Escolha uma opção: ");
+                io::stdout().flush()?;
+
+                opcao.clear();
+                io::stdin().read_line(&mut opcao)?;
+                let op = opcao.trim();
+
+                match op {
+                    "1" => {
+                        salvar_departamentos(caminho, &mut departamentos, proximo_id)?;
+                        println!("Alterações salvas. Saindo...");
+                        break;
+                    }
+                    "2" => {
+                        println!("Alterações descartadas. Saindo...");
+                        break;
+                    }
+                    "0" => {}
+                    _ => println!("Opção inválida."),
+                }
+            }
+            _ => println!("Opção inválida."),
+        }
+    }
+    Ok(())
 }
 
 fn main() -> std::io::Result<()> {
@@ -165,6 +230,7 @@ fn main() -> std::io::Result<()> {
         println!("\n========= GERENCIAR EMPRESA =========");
         println!("1 - Gerenciar funcionários");
 		println!("2 - Gerenciar projetos");
+		println!("3 - Gerenciar departamentos");
         println!("0 - Sair");
         print!("Escolha uma opção: ");
         io::stdout().flush()?;

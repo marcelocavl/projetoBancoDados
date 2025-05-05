@@ -418,3 +418,152 @@ pub fn salvar_projetos(caminho: &str, projetos: &mut Vec<Projeto>, proximo_id: u
 
 
 // CRUD DE DEPARTAMENTOS
+
+pub fn adicionar_departamento_interativo(departamentos: &mut Vec<Departamento>, proximo_id: &mut u32) -> io::Result<()> {
+    println!("\nAdicione as informações do novo departamento...");
+    let nome_departamento = ler_input("Nome do departamento: ");
+    let id_gerente = ler_input("ID do gerente responsável: ").parse().unwrap_or(0);
+
+    let novo_departamento = Departamento::new(*proximo_id, nome_departamento.clone(), id_gerente);
+
+    departamentos.push(novo_departamento);
+
+    println!("Departamento '{}' cadastrado com ID {}.", nome_departamento, *proximo_id);
+    *proximo_id += 1;
+
+    Ok(())
+}
+
+fn achar_departamento_por_id(departamentos: &mut Vec<Departamento>, id: u32) -> Option<usize> {
+    if departamentos.is_empty() {
+        return None; // Retorna None se a lista estiver vazia
+    }
+    departamentos.iter_mut().position(|departamento: &mut Departamento| *departamento.get_id() == id)
+}
+
+fn deletar_departamento_por_id(departamentos: &mut Vec<Departamento>, id: u32) -> bool {
+    if let Some(pos) = departamentos.iter_mut().position(|departamento: &mut Departamento| *departamento.get_id() == id) {
+        departamentos.remove(pos);
+        true
+    } else {
+        false // Retorna false se o departamento com o id não foi encontrado
+    }
+}
+
+pub fn atualizar_departamento_por_id(id_alvo: u32, departamentos: &mut Vec<Departamento>) -> io::Result<()> {
+    if let Some(n) = achar_departamento_por_id(departamentos, id_alvo) {
+        let id_departamento = departamentos[n].get_id().clone();
+        let mut nome_departamento = departamentos[n].get_nome().clone();
+        let mut id_gerente = departamentos[n].get_id_gerente().clone();
+
+        println!("--- Editando departamento ID {} ---", id_departamento);
+        loop {
+            println!("\nCampos disponíveis para edição:");
+            println!("1 - Nome do departamento: {}", nome_departamento);
+            println!("2 - ID do gerente: {}", id_gerente);
+            println!("0 - Finalizar edição");
+
+            let opcao = ler_input("Escolha o número do campo para editar: ");
+
+            match opcao.trim() {
+                "1" => {
+                    departamentos[n].set_nome(ler_input("Novo nome do departamento: "));
+                    nome_departamento = departamentos[n].get_nome().clone();
+                }
+                "2" => {
+                    departamentos[n].set_id_gerente(
+                        ler_input("Novo ID do gerente: ").parse().unwrap_or(id_gerente),
+                    );
+                    id_gerente = departamentos[n].get_id_gerente().clone();
+                }
+                "0" => break,
+                _ => println!("Opção inválida."),
+            };
+        }
+    } else {
+        println!("Departamento com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn remover_departamento_por_id(id_alvo: u32, departamentos: &mut Vec<Departamento>) -> io::Result<()> {
+    if deletar_departamento_por_id(departamentos, id_alvo) {
+        println!("Departamento com ID {} removido.", id_alvo);
+    } else {
+        println!("Departamento com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn listar_departamentos(departamentos: &mut Vec<Departamento>) -> io::Result<()> {
+    if departamentos.is_empty() {
+        println!("Nenhum departamento cadastrado.");
+        return Ok(());
+    }
+
+    println!("");
+    println!(
+        "{:<4} {:<25} {:<15}",
+        "| ID", "| Nome do Departamento", "| ID Gerente"
+    );
+    println!("{}", "-".repeat(60));
+
+    for departamento in departamentos {
+        println!(
+            "| {:<3}| {:<24}| {:<14}",
+            departamento.get_id().clone(),
+            departamento.get_nome().clone(),
+            departamento.get_id_gerente().clone()
+        );
+    }
+
+    Ok(())
+}
+
+pub fn carregar_departamentos(caminho: &str) -> io::Result<(Vec<Departamento>, u32)> {
+    let arquivo = File::open(caminho)?;
+    let mut leitor = BufReader::new(arquivo);
+    let mut primeira_linha = String::new();
+
+    leitor.read_line(&mut primeira_linha)?;
+    let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
+
+    let mut lista_departamentos = Vec::new();
+
+    for linha in leitor.lines().flatten() {
+        let campos: Vec<&str> = linha.split(';').collect();
+        if campos.len() != 3 {
+            continue;
+        }
+
+        let departamento = Departamento::new(
+            campos[0].parse().unwrap_or(0),
+            campos[1].to_string(),
+            campos[2].parse().unwrap_or(0),
+        );
+
+        lista_departamentos.push(departamento);
+    }
+
+    Ok((lista_departamentos, proximo_id))
+}
+
+pub fn salvar_departamentos(caminho: &str, departamentos: &mut Vec<Departamento>, proximo_id: u32) -> io::Result<()> {
+    let mut conteudo = format!("{}\n", proximo_id);
+
+    for departamento in departamentos {
+        conteudo.push_str(&format!(
+            "{};{};{}\n",
+            departamento.get_id().clone(),
+            departamento.get_nome().clone(),
+            departamento.get_id_gerente().clone()
+        ));
+    }
+
+    std::fs::write(caminho, conteudo)?;
+    Ok(())
+}
