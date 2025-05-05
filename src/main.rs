@@ -6,7 +6,7 @@ use crud::*;
 use std::io::{self, Write};
 
 fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
-    // let (mut funcionarios, mut proximo_id) = carregar_funcionarios(caminho)?;
+    let (mut funcionarios, mut proximo_id) = carregar_funcionarios(caminho)?;
     
     loop {
         println!("\n========= FUNCIONÁRIOS =========");
@@ -24,24 +24,24 @@ fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
 
         match op {
             "1" => {
-                // listar_funcionarios(&funcionarios);
+                listar_funcionarios(&mut funcionarios);
             }
             "2" => {
-                // criar_funcionario(&mut funcionarios, &mut proximo_id);
+                adicionar_funcionario_interativo(&mut funcionarios, &mut proximo_id);
             }
             "3" => {
-                // listar_funcionarios(&funcionarios);
-				// 	let id: u32 = ler_input("\nDigite o ID do funcionário que deseja atualizar: ")
-				// 	.parse()
-				// 	.unwrap_or(0);
-            	// atualizar_funcionario_por_id(&mut funcionarios, id);
+                listar_funcionarios(&mut funcionarios)?;
+                let id: u32 = ler_input("Digite o ID do funcionário que deseja atualizar: ")
+                    .parse()
+                    .unwrap_or(0);
+                atualizar_funcionario_por_id(id, &mut funcionarios)?;
             }
             "4" => {
-                // listar_funcionarios(&funcionarios);
-                // let id: u32 = ler_input("\nDigite o ID do funcionário que deseja remover: ")
-                //     .parse()
-                //     .unwrap_or(0);
-                // remover_funcionario_por_id(&mut funcionarios, id);
+                listar_funcionarios(&mut funcionarios)?;
+                let id: u32 = ler_input("Digite o ID do funcionário que deseja remover: ")
+                    .parse()
+                    .unwrap_or(0);
+                remover_funcionario_por_id(id, &mut funcionarios)?;
             }
             "0" => {
                 println!("\nSalvar as alterações?");
@@ -57,7 +57,7 @@ fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
 
                 match op {
                     "1" => {
-                        // salvar_funcionarios(caminho, &funcionarios, proximo_id)?;
+                        salvar_funcionarios(caminho, &mut funcionarios, proximo_id)?;
                         println!("Alterações salvas. Saindo...");
                         break;
                     }

@@ -22,8 +22,8 @@ pub fn arquivo_existe(caminho: &str) -> bool {
 pub fn criar_arquivo(caminho: &str) -> io::Result<()> {
     if !arquivo_existe(caminho) {
         println!("Arquivo não encontrado. Criando arquivo '{}'.", caminho);
-        let _: File = File::create(caminho)?; // Cria o arquivo vazio
-        // writeln!(file, "1")?; // ID inicial
+        let mut file: File = File::create(caminho)?; // Cria o arquivo vazio
+        writeln!(file, "1")?; // ID inicial
     } else {
         println!("Arquivo '{}' já existe.", caminho);
     }
@@ -31,7 +31,229 @@ pub fn criar_arquivo(caminho: &str) -> io::Result<()> {
 }
 
 
+
 // CRUD DE FUNCIONARIOS
+
+pub fn adicionar_funcionario_interativo(funcionarios: &mut Vec<Funcionario>, proximo_id: &mut u32) -> io::Result<()> {
+    // Lê todas as linhas do arquivo
+    println!("\nAdicione as informações do novo funcionário...");
+    // Solicita os dados ao usuário
+    let nome = ler_input("Nome: ");
+    let cpf = ler_input("CPF: ");
+    let endereco = ler_input("Endereço: ");
+    let salario = ler_input("Salário: ").parse().unwrap_or(0.0);
+    let genero = ler_input("Gênero (M/F): ").chars().next().unwrap_or('?');
+    let nascimento = ler_input("Nascimento (YYYY-MM-DD): ");
+    let id_departamento = ler_input("ID do departamento: ").parse().unwrap_or(0);
+
+    let novo_funcionario = Funcionario::new(
+        *proximo_id,
+        nome.clone(),
+        cpf,
+        endereco,
+        salario,
+        genero,
+        nascimento,
+        id_departamento,
+    );
+
+    funcionarios.push(novo_funcionario);
+
+    println!("Funcionário '{}' cadastrado com ID {}.", nome, *proximo_id);
+    *proximo_id += 1;
+
+    Ok(())
+}
+
+fn achar_funcionario_por_id(funcionarios: &mut Vec<Funcionario>, id: u32) -> Option<usize> {
+    if funcionarios.is_empty() {
+        return None; // Retorna None se a lista estiver vazia
+    }
+    funcionarios.iter_mut().position(|funcionario: &mut Funcionario| *funcionario.get_id() == id)
+}
+
+fn deletar_funcionario_por_id(funcionarios: &mut Vec<Funcionario>, id: u32) -> bool {
+    if let Some(pos) = funcionarios.iter_mut().position(|funcionario: &mut Funcionario| *funcionario.get_id() == id) {
+        funcionarios.remove(pos);
+        true
+    } else {
+        false // Retorna false se o funcionário com o id não foi encontrado
+    }
+}
+
+pub fn atualizar_funcionario_por_id(id_alvo: u32, funcionarios: &mut Vec<Funcionario>) -> io::Result<()> {
+    if let Some(n) = achar_funcionario_por_id(funcionarios, id_alvo) {
+        // let n = lista.achar_funcionario_por_id(id_alvo).unwrap(); // Pega o índice do funcionário
+        let id = funcionarios[n].get_id().clone();
+        let mut nome = funcionarios[n].get_nome().clone();
+        let mut cpf = funcionarios[n].get_cpf().clone();
+        let mut endereco = funcionarios[n].get_endereco().clone();
+        let mut salario = funcionarios[n].get_salario().clone();
+        let mut genero = funcionarios[n].get_genero().clone();
+        let mut nascimento = funcionarios[n].get_nascimento().clone();
+        let mut id_departamento = funcionarios[n].get_id_departamento().clone();
+
+        println!("--- Editando funcionário ID {} ---", id);
+        loop {
+            println!("\nCampos disponíveis para edição:");
+            println!("1 - Nome: {}", nome);
+            println!("2 - CPF: {}", cpf);
+            println!("3 - Endereço: {}", endereco);
+            println!("4 - Salário: {:.2}", salario);
+            println!("5 - Gênero: {}", genero);
+            println!("6 - Nascimento: {}", nascimento);
+            println!("7 - ID Departamento: {}", id_departamento);
+            println!("0 - Finalizar edição");
+
+            let opcao = ler_input("Escolha o número do campo para editar: ");
+
+            match opcao.trim() {
+                "1" => {
+                    funcionarios[n].set_nome(ler_input("Novo nome: "));
+                    nome = funcionarios[n].get_nome().clone(); // Atualiza o nome
+                }
+                "2" => {
+                    funcionarios[n].set_cpf(ler_input("Novo CPF: "));
+                    cpf = funcionarios[n].get_cpf().clone(); // Atualiza o CPF
+                }
+                "3" => {
+                    funcionarios[n].set_endereco(ler_input("Novo endereço: "));
+                    endereco = funcionarios[n].get_endereco().clone(); // Atualiza o endereço
+                }
+                "4" => {
+                    funcionarios[n]
+                        .set_salario(ler_input("Novo salário: ").parse().unwrap_or(salario));
+                    salario = funcionarios[n].get_salario().clone(); // Atualiza o salário
+                }
+                "5" => {
+                    funcionarios[n].set_genero(
+                        ler_input("Novo gênero (M/F): ")
+                            .chars()
+                            .next()
+                            .unwrap_or(genero),
+                    );
+                    genero = funcionarios[n].get_genero().clone(); // Atualiza o gênero
+                }
+                "6" => {
+                    funcionarios[n]
+                        .set_nascimento(ler_input("Novo nascimento (YYYY-MM-DD): "));
+                    nascimento = funcionarios[n].get_nascimento().clone(); // Atualiza o nascimento
+                }
+                "7" => {
+                    funcionarios[n].set_id_departamento(
+                        ler_input("Novo ID do departamento: ")
+                            .parse()
+                            .unwrap_or(id_departamento),
+                    );
+                    id_departamento = funcionarios[n].get_id_departamento().clone(); // Atualiza o ID do departamento
+                }
+                "0" => break,
+                _ => println!("Opção inválida."),
+            };
+        }
+    } else {
+        println!("Funcionário com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn remover_funcionario_por_id(id_alvo: u32, funcionarios: &mut Vec<Funcionario>) -> io::Result<()> {
+    if deletar_funcionario_por_id(funcionarios, id_alvo) {
+        println!("Funcionário com ID {} removido.", id_alvo);
+    } else {
+        println!("Funcionário com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn listar_funcionarios(funcionarios: &mut Vec<Funcionario>) -> io::Result<()> {
+    if funcionarios.is_empty() {
+        println!("Nenhum funcionário cadastrado.");
+        return Ok(());
+    }
+
+    println!("");
+    println!(
+        "{:<4} {:<25} {:<15} {:<35} {:<10} {:<6} {:<12} {:<5}",
+        "| ID", "| Nome", "| CPF", "| Endereço", "| Salário", "| Gênero", "| Nascimento", "| Dep."
+    );
+    println!("{}", "-".repeat(120));
+
+    for funcionario in funcionarios {
+        println!(
+            "| {:<3}| {:<24}| {:<14}| {:<34}| {:<9.2}| {:<7}| {:<11}| {:<5}",
+            funcionario.get_id().clone(),
+            funcionario.get_nome().clone(),
+            funcionario.get_cpf().clone(),
+            funcionario.get_endereco().clone(),
+            funcionario.get_salario().clone(),
+            funcionario.get_genero().clone(),
+            funcionario.get_nascimento().clone(),
+            funcionario.get_id_departamento().clone()
+        );
+    }
+
+    Ok(())
+}
+
+pub fn carregar_funcionarios(caminho: &str) -> io::Result<(Vec<Funcionario>, u32)> {
+    let arquivo = File::open(caminho)?;
+    let mut leitor = BufReader::new(arquivo);
+    let mut primeira_linha = String::new();
+
+    leitor.read_line(&mut primeira_linha)?;
+    let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
+
+    let mut lista_funcionarios = Vec::new();
+
+    for linha in leitor.lines().flatten() {
+        let campos: Vec<&str> = linha.split(';').collect();
+        if campos.len() != 8 {
+            continue;
+        }
+
+        let funcionario = Funcionario::new(
+            campos[0].parse().unwrap_or(0),
+            campos[1].to_string(),
+            campos[2].to_string(),
+            campos[3].to_string(),
+            campos[4].parse().unwrap_or(0.0),
+            campos[5].chars().next().unwrap_or('?'),
+            campos[6].to_string(),
+            campos[7].parse().unwrap_or(0),
+        );
+
+        lista_funcionarios.push(funcionario);
+    }
+
+    Ok((lista_funcionarios, proximo_id))
+}
+
+pub fn salvar_funcionarios(caminho: &str, funcionarios: &mut Vec<Funcionario>, proximo_id: u32) -> io::Result<()> {
+    let mut conteudo = format!("{}\n", proximo_id);
+
+    for funcionario in funcionarios {
+        conteudo.push_str(&format!(
+            "{};{};{};{};{};{};{};{}\n",
+            funcionario.get_id().clone(),
+            funcionario.get_nome().clone(),
+            funcionario.get_cpf().clone(),
+            funcionario.get_endereco().clone(),
+            funcionario.get_salario().clone(),
+            funcionario.get_genero().clone(),
+            funcionario.get_nascimento().clone(),
+            funcionario.get_id_departamento().clone()
+        ));
+    }
+
+    std::fs::write(caminho, conteudo)?;
+    Ok(())
+}
+
 
 // CRUD DE PROJETOS
 
