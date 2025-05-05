@@ -40,10 +40,10 @@ impl Projeto {
             FUNCOES SET
     ******************************/
 
-    pub fn set_id_projeto(&mut self, id_projeto: u32) -> bool {
-        self.id_projeto = id_projeto;
-        true
-    }
+    // pub fn set_id_projeto(&mut self, id_projeto: u32) -> bool {
+    //     self.id_projeto = id_projeto;
+    //     true
+    // }
     pub fn set_nome_projeto(&mut self, nome_projeto: String) -> bool {
         self.nome_projeto = nome_projeto;
         true
@@ -61,28 +61,28 @@ impl Projeto {
             FUNCAO PRINT
     ******************************/
 
-    pub fn print(&self) {
-        self.print_id_projeto();
-        println!("");
-        self.print_nome_projeto();
-        println!("");
-        self.print_id_departamento();
-        println!("");
-        self.print_local();
-        println!("");
-        println!("----------------------------");
-    }
+    // pub fn print(&self) {
+    //     self.print_id_projeto();
+    //     println!("");
+    //     self.print_nome_projeto();
+    //     println!("");
+    //     self.print_id_departamento();
+    //     println!("");
+    //     self.print_local();
+    //     println!("");
+    //     println!("----------------------------");
+    // }
     
-    pub fn print_id_projeto(&self) {
-        print!("ID PROJETO: {}", self.get_id_projeto());
-    }
-    pub fn print_nome_projeto(&self) {
-        print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
-    }
-    pub fn print_id_departamento(&self) {
-        print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
-    }
-    pub fn print_local(&self) {
-        print!("LOCAL: {}", self.get_local());
-    }
+    // pub fn print_id_projeto(&self) {
+    //     print!("ID PROJETO: {}", self.get_id_projeto());
+    // }
+    // pub fn print_nome_projeto(&self) {
+    //     print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
+    // }
+    // pub fn print_id_departamento(&self) {
+    //     print!("ID DEPARTAMENTO: {}", self.get_id_departamento());
+    // }
+    // pub fn print_local(&self) {
+    //     print!("LOCAL: {}", self.get_local());
+    // }
 }

@@ -1,6 +1,6 @@
-use crate::includes::classes::Funcionario::Funcionario;
-use crate::includes::classes::Departamento::Departamento;
-use crate::includes::classes::Projeto::Projeto;
+use crate::includes::classes::funcionario::Funcionario;
+use crate::includes::classes::departamento::Departamento;
+use crate::includes::classes::projeto::Projeto;
 
 use std::io::{self, BufRead, BufReader, Write};
 use std::fs::File;
@@ -38,15 +38,15 @@ pub fn adicionar_funcionario_interativo(funcionarios: &mut Vec<Funcionario>, pro
     // Lê todas as linhas do arquivo
     println!("\nAdicione as informações do novo funcionário...");
     // Solicita os dados ao usuário
-    let nome = ler_input("Nome: ");
-    let cpf = ler_input("CPF: ");
-    let endereco = ler_input("Endereço: ");
-    let salario = ler_input("Salário: ").parse().unwrap_or(0.0);
-    let genero = ler_input("Gênero (M/F): ").chars().next().unwrap_or('?');
-    let nascimento = ler_input("Nascimento (YYYY-MM-DD): ");
-    let id_departamento = ler_input("ID do departamento: ").parse().unwrap_or(0);
+    let nome: String = ler_input("Nome: ");
+    let cpf: String = ler_input("CPF: ");
+    let endereco: String = ler_input("Endereço: ");
+    let salario: f64 = ler_input("Salário: ").parse().unwrap_or(0.0);
+    let genero: char = ler_input("Gênero (M/F): ").chars().next().unwrap_or('?');
+    let nascimento: String = ler_input("Nascimento (YYYY-MM-DD): ");
+    let id_departamento: u32 = ler_input("ID do departamento: ").parse().unwrap_or(0);
 
-    let novo_funcionario = Funcionario::new(
+    let novo_funcionario: Funcionario = Funcionario::new(
         *proximo_id,
         nome.clone(),
         cpf,
@@ -84,14 +84,14 @@ fn deletar_funcionario_por_id(funcionarios: &mut Vec<Funcionario>, id: u32) -> b
 pub fn atualizar_funcionario_por_id(id_alvo: u32, funcionarios: &mut Vec<Funcionario>) -> io::Result<()> {
     if let Some(n) = achar_funcionario_por_id(funcionarios, id_alvo) {
         // let n = lista.achar_funcionario_por_id(id_alvo).unwrap(); // Pega o índice do funcionário
-        let id = funcionarios[n].get_id().clone();
-        let mut nome = funcionarios[n].get_nome().clone();
-        let mut cpf = funcionarios[n].get_cpf().clone();
-        let mut endereco = funcionarios[n].get_endereco().clone();
-        let mut salario = funcionarios[n].get_salario().clone();
-        let mut genero = funcionarios[n].get_genero().clone();
-        let mut nascimento = funcionarios[n].get_nascimento().clone();
-        let mut id_departamento = funcionarios[n].get_id_departamento().clone();
+        let id: u32 = funcionarios[n].get_id().clone();
+        let mut nome: String = funcionarios[n].get_nome().clone();
+        let mut cpf: String = funcionarios[n].get_cpf().clone();
+        let mut endereco: String = funcionarios[n].get_endereco().clone();
+        let mut salario: f64 = funcionarios[n].get_salario().clone();
+        let mut genero: char = funcionarios[n].get_genero().clone();
+        let mut nascimento: String = funcionarios[n].get_nascimento().clone();
+        let mut id_departamento: u32 = funcionarios[n].get_id_departamento().clone();
 
         println!("--- Editando funcionário ID {} ---", id);
         loop {
@@ -201,14 +201,14 @@ pub fn listar_funcionarios(funcionarios: &mut Vec<Funcionario>) -> io::Result<()
 }
 
 pub fn carregar_funcionarios(caminho: &str) -> io::Result<(Vec<Funcionario>, u32)> {
-    let arquivo = File::open(caminho)?;
-    let mut leitor = BufReader::new(arquivo);
-    let mut primeira_linha = String::new();
+    let arquivo: File = File::open(caminho)?;
+    let mut leitor: BufReader<File> = BufReader::new(arquivo);
+    let mut primeira_linha: String = String::new();
 
     leitor.read_line(&mut primeira_linha)?;
     let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
 
-    let mut lista_funcionarios = Vec::new();
+    let mut lista_funcionarios: Vec<Funcionario> = Vec::new();
 
     for linha in leitor.lines().flatten() {
         let campos: Vec<&str> = linha.split(';').collect();
@@ -216,7 +216,7 @@ pub fn carregar_funcionarios(caminho: &str) -> io::Result<(Vec<Funcionario>, u32
             continue;
         }
 
-        let funcionario = Funcionario::new(
+        let funcionario: Funcionario = Funcionario::new(
             campos[0].parse().unwrap_or(0),
             campos[1].to_string(),
             campos[2].to_string(),
@@ -234,7 +234,7 @@ pub fn carregar_funcionarios(caminho: &str) -> io::Result<(Vec<Funcionario>, u32
 }
 
 pub fn salvar_funcionarios(caminho: &str, funcionarios: &mut Vec<Funcionario>, proximo_id: u32) -> io::Result<()> {
-    let mut conteudo = format!("{}\n", proximo_id);
+    let mut conteudo: String = format!("{}\n", proximo_id);
 
     for funcionario in funcionarios {
         conteudo.push_str(&format!(
@@ -259,11 +259,11 @@ pub fn salvar_funcionarios(caminho: &str, funcionarios: &mut Vec<Funcionario>, p
 
 pub fn adicionar_projeto_interativo(projetos: &mut Vec<Projeto>, proximo_id: &mut u32) -> io::Result<()> {
     println!("\nAdicione as informações do novo projeto...");
-    let nome_projeto = ler_input("Nome do projeto: ");
-    let id_departamento = ler_input("ID do departamento responsável: ").parse().unwrap_or(0);
-    let local = ler_input("Local do projeto: ");
+    let nome_projeto: String = ler_input("Nome do projeto: ");
+    let id_departamento: u32 = ler_input("ID do departamento responsável: ").parse().unwrap_or(0);
+    let local: String = ler_input("Local do projeto: ");
 
-    let novo_projeto = Projeto::new(*proximo_id, nome_projeto.clone(), id_departamento, local);
+    let novo_projeto: Projeto = Projeto::new(*proximo_id, nome_projeto.clone(), id_departamento, local);
 
     projetos.push(novo_projeto);
 
@@ -291,10 +291,10 @@ fn deletar_projeto_por_id(projetos: &mut Vec<Projeto>, id: u32) -> bool {
 
 pub fn atualizar_projeto_por_id(id_alvo: u32, projetos: &mut Vec<Projeto>) -> io::Result<()> {
     if let Some(n) = achar_projeto_por_id(projetos, id_alvo) {
-        let id_projeto = projetos[n].get_id_projeto().clone();
-        let mut nome_projeto = projetos[n].get_nome_projeto().clone();
-        let mut id_departamento = projetos[n].get_id_departamento().clone();
-        let mut local = projetos[n].get_local().clone();
+        let id_projeto: u32 = projetos[n].get_id_projeto().clone();
+        let mut nome_projeto: String = projetos[n].get_nome_projeto().clone();
+        let mut id_departamento: u32 = projetos[n].get_id_departamento().clone();
+        let mut local: String = projetos[n].get_local().clone();
 
         println!("--- Editando projeto ID {} ---", id_projeto);
         loop {
@@ -304,7 +304,7 @@ pub fn atualizar_projeto_por_id(id_alvo: u32, projetos: &mut Vec<Projeto>) -> io
             println!("3 - Local: {}", local);
             println!("0 - Finalizar edição");
 
-            let opcao = ler_input("Escolha o número do campo para editar: ");
+            let opcao: String = ler_input("Escolha o número do campo para editar: ");
 
             match opcao.trim() {
                 "1" => {
@@ -371,14 +371,14 @@ pub fn listar_projetos(projetos: &mut Vec<Projeto>) -> io::Result<()> {
 }
 
 pub fn carregar_projetos(caminho: &str) -> io::Result<(Vec<Projeto>, u32)> {
-    let arquivo = File::open(caminho)?;
-    let mut leitor = BufReader::new(arquivo);
-    let mut primeira_linha = String::new();
+    let arquivo: File = File::open(caminho)?;
+    let mut leitor: BufReader<File> = BufReader::new(arquivo);
+    let mut primeira_linha: String = String::new();
 
     leitor.read_line(&mut primeira_linha)?;
     let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
 
-    let mut lista_projetos = Vec::new();
+    let mut lista_projetos: Vec<Projeto> = Vec::new();
 
     for linha in leitor.lines().flatten() {
         let campos: Vec<&str> = linha.split(';').collect();
@@ -386,7 +386,7 @@ pub fn carregar_projetos(caminho: &str) -> io::Result<(Vec<Projeto>, u32)> {
             continue;
         }
 
-        let projeto = Projeto::new(
+        let projeto: Projeto = Projeto::new(
             campos[0].parse().unwrap_or(0),
             campos[1].to_string(),
             campos[2].parse().unwrap_or(0),
@@ -400,7 +400,7 @@ pub fn carregar_projetos(caminho: &str) -> io::Result<(Vec<Projeto>, u32)> {
 }
 
 pub fn salvar_projetos(caminho: &str, projetos: &mut Vec<Projeto>, proximo_id: u32) -> io::Result<()> {
-    let mut conteudo = format!("{}\n", proximo_id);
+    let mut conteudo: String = format!("{}\n", proximo_id);
 
     for projeto in projetos {
         conteudo.push_str(&format!(
@@ -421,10 +421,10 @@ pub fn salvar_projetos(caminho: &str, projetos: &mut Vec<Projeto>, proximo_id: u
 
 pub fn adicionar_departamento_interativo(departamentos: &mut Vec<Departamento>, proximo_id: &mut u32) -> io::Result<()> {
     println!("\nAdicione as informações do novo departamento...");
-    let nome_departamento = ler_input("Nome do departamento: ");
-    let id_gerente = ler_input("ID do gerente responsável: ").parse().unwrap_or(0);
+    let nome_departamento: String = ler_input("Nome do departamento: ");
+    let id_gerente: u32 = ler_input("ID do gerente responsável: ").parse().unwrap_or(0);
 
-    let novo_departamento = Departamento::new(*proximo_id, nome_departamento.clone(), id_gerente);
+    let novo_departamento: Departamento = Departamento::new(*proximo_id, nome_departamento.clone(), id_gerente);
 
     departamentos.push(novo_departamento);
 
@@ -452,9 +452,9 @@ fn deletar_departamento_por_id(departamentos: &mut Vec<Departamento>, id: u32) -
 
 pub fn atualizar_departamento_por_id(id_alvo: u32, departamentos: &mut Vec<Departamento>) -> io::Result<()> {
     if let Some(n) = achar_departamento_por_id(departamentos, id_alvo) {
-        let id_departamento = departamentos[n].get_id().clone();
-        let mut nome_departamento = departamentos[n].get_nome().clone();
-        let mut id_gerente = departamentos[n].get_id_gerente().clone();
+        let id_departamento: u32 = departamentos[n].get_id().clone();
+        let mut nome_departamento: String = departamentos[n].get_nome().clone();
+        let mut id_gerente: u32 = departamentos[n].get_id_gerente().clone();
 
         println!("--- Editando departamento ID {} ---", id_departamento);
         loop {
@@ -525,14 +525,14 @@ pub fn listar_departamentos(departamentos: &mut Vec<Departamento>) -> io::Result
 }
 
 pub fn carregar_departamentos(caminho: &str) -> io::Result<(Vec<Departamento>, u32)> {
-    let arquivo = File::open(caminho)?;
-    let mut leitor = BufReader::new(arquivo);
-    let mut primeira_linha = String::new();
+    let arquivo: File = File::open(caminho)?;
+    let mut leitor: BufReader<File> = BufReader::new(arquivo);
+    let mut primeira_linha: String = String::new();
 
     leitor.read_line(&mut primeira_linha)?;
     let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
 
-    let mut lista_departamentos = Vec::new();
+    let mut lista_departamentos: Vec<Departamento> = Vec::new();
 
     for linha in leitor.lines().flatten() {
         let campos: Vec<&str> = linha.split(';').collect();
@@ -540,7 +540,7 @@ pub fn carregar_departamentos(caminho: &str) -> io::Result<(Vec<Departamento>, u
             continue;
         }
 
-        let departamento = Departamento::new(
+        let departamento: Departamento = Departamento::new(
             campos[0].parse().unwrap_or(0),
             campos[1].to_string(),
             campos[2].parse().unwrap_or(0),
@@ -553,7 +553,7 @@ pub fn carregar_departamentos(caminho: &str) -> io::Result<(Vec<Departamento>, u
 }
 
 pub fn salvar_departamentos(caminho: &str, departamentos: &mut Vec<Departamento>, proximo_id: u32) -> io::Result<()> {
-    let mut conteudo = format!("{}\n", proximo_id);
+    let mut conteudo: String = format!("{}\n", proximo_id);
 
     for departamento in departamentos {
         conteudo.push_str(&format!(

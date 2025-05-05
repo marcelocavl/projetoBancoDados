@@ -34,10 +34,10 @@ impl Departamento {
             FUNCOES SET
     ******************************/
 
-    pub fn set_id(&mut self, id: u32) -> bool {
-        self.id = id;
-        true
-    }
+    // pub fn set_id(&mut self, id: u32) -> bool {
+    //     self.id = id;
+    //     true
+    // }
     pub fn set_nome(&mut self, nome: String) -> bool {
         self.nome = nome;
         true
@@ -51,10 +51,10 @@ impl Departamento {
             FUNCAO PRINT
     ******************************/
 
-    pub fn print(&self) {
-        println!("ID: {}", self.get_id());
-        println!("NOME: {}", self.get_nome());
-        println!("ID GERENTE: {}", self.get_id_gerente());
-        println!("----------------------------");
-    }
+    // pub fn print(&self) {
+    //     println!("ID: {}", self.get_id());
+    //     println!("NOME: {}", self.get_nome());
+    //     println!("ID GERENTE: {}", self.get_id_gerente());
+    //     println!("----------------------------");
+    // }
 }

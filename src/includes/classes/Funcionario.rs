@@ -69,10 +69,10 @@ impl Funcionario {
             FUNCOES SET
     ******************************/
 
-    pub fn set_id(&mut self, id: u32) -> bool {
-        self.id = id;
-        true
-    }
+    // pub fn set_id(&mut self, id: u32) -> bool {
+    //     self.id = id;
+    //     true
+    // }
     pub fn set_nome(&mut self, nome: String) -> bool {
         self.nome = nome;
         true
@@ -106,113 +106,113 @@ impl Funcionario {
             FUNCOES DE COMPARACAO
     ******************************/
 
-    pub fn cmp_funcionarios(&mut self, funcionario: &mut Funcionario) -> bool {
-        if self.get_id() != funcionario.get_id() {
-            return false;
-        }
-        if self.get_nome() != funcionario.get_nome() {
-            return false;
-        }
-        if self.get_cpf() != funcionario.get_cpf() {
-            return false;
-        }
-        if self.get_endereco() != funcionario.get_endereco() {
-            return false;
-        }
-        if self.get_salario() != funcionario.get_salario() {
-            return false;
-        }
-        if self.get_genero() != funcionario.get_genero() {
-            return false;
-        }
-        if self.get_nascimento() != funcionario.get_nascimento() {
-            return false;
-        }
-        if self.get_id_departamento() != funcionario.get_id_departamento() {
-            return false;
-        }
-        true
-    }
+    // pub fn cmp_funcionarios(&mut self, funcionario: &mut Funcionario) -> bool {
+    //     if self.get_id() != funcionario.get_id() {
+    //         return false;
+    //     }
+    //     if self.get_nome() != funcionario.get_nome() {
+    //         return false;
+    //     }
+    //     if self.get_cpf() != funcionario.get_cpf() {
+    //         return false;
+    //     }
+    //     if self.get_endereco() != funcionario.get_endereco() {
+    //         return false;
+    //     }
+    //     if self.get_salario() != funcionario.get_salario() {
+    //         return false;
+    //     }
+    //     if self.get_genero() != funcionario.get_genero() {
+    //         return false;
+    //     }
+    //     if self.get_nascimento() != funcionario.get_nascimento() {
+    //         return false;
+    //     }
+    //     if self.get_id_departamento() != funcionario.get_id_departamento() {
+    //         return false;
+    //     }
+    //     true
+    // }
 
     /******************************
             FUNCOES PRINT
     ******************************/
 
-    pub fn print(&mut self) {
-        self.print_id();
-        println!("");
-        self.print_nome();
-        println!("");
-        self.print_cpf();
-        println!("");
-        self.print_endereco();
-        println!("");
-        self.print_genero();
-        println!("");
-        self.print_salario();
-        println!("");
-        self.print_nascimento();
-        println!("");
-        self.print_id_departamento();
-        println!("");
-        println!("----------------------------");
-    }
+    // pub fn print(&mut self) {
+    //     self.print_id();
+    //     println!("");
+    //     self.print_nome();
+    //     println!("");
+    //     self.print_cpf();
+    //     println!("");
+    //     self.print_endereco();
+    //     println!("");
+    //     self.print_genero();
+    //     println!("");
+    //     self.print_salario();
+    //     println!("");
+    //     self.print_nascimento();
+    //     println!("");
+    //     self.print_id_departamento();
+    //     println!("");
+    //     println!("----------------------------");
+    // }
 
-    pub fn print_id(&mut self) {
-        print!("ID FUNCIONARIO:{}", self.get_id());
-    }
-    pub fn print_nome(&mut self) {
-        print!("NOME:{}", self.get_nome());
-    }
-    pub fn print_cpf(&mut self) {
-        print!("CPF:{}", self.get_cpf());
-    }
-    pub fn print_endereco(&mut self) {
-        print!("ENDERECO:{}", self.get_endereco());
-    }
-    pub fn print_genero(&mut self) {
-        print!("GENERO:{}", self.get_genero());
-    }
-    pub fn print_salario(&mut self) {
-        print!("SALARIO:{}", self.get_salario());
-    }
-    pub fn print_nascimento(&mut self) {
-        print!("NASCIMENTO:{}", self.get_nascimento());
-    }
-    pub fn print_id_departamento(&mut self) {
-        print!("ID DEPARTAMENTO:{}", self.get_id_departamento());
-    }
+    // pub fn print_id(&mut self) {
+    //     print!("ID FUNCIONARIO:{}", self.get_id());
+    // }
+    // pub fn print_nome(&mut self) {
+    //     print!("NOME:{}", self.get_nome());
+    // }
+    // pub fn print_cpf(&mut self) {
+    //     print!("CPF:{}", self.get_cpf());
+    // }
+    // pub fn print_endereco(&mut self) {
+    //     print!("ENDERECO:{}", self.get_endereco());
+    // }
+    // pub fn print_genero(&mut self) {
+    //     print!("GENERO:{}", self.get_genero());
+    // }
+    // pub fn print_salario(&mut self) {
+    //     print!("SALARIO:{}", self.get_salario());
+    // }
+    // pub fn print_nascimento(&mut self) {
+    //     print!("NASCIMENTO:{}", self.get_nascimento());
+    // }
+    // pub fn print_id_departamento(&mut self) {
+    //     print!("ID DEPARTAMENTO:{}", self.get_id_departamento());
+    // }
 
     //funcao de colocar atributos do funcionario em uma string unica
-    pub fn colocar_atributos_em_string(&mut self) -> String {
-        let mut atributos: String = String::new(); //instanciei uma string vazia
+    // pub fn colocar_atributos_em_string(&mut self) -> String {
+    //     let mut atributos: String = String::new(); //instanciei uma string vazia
 
-        let string_id: String = self.get_id().to_string().clone(); //transformando id:u32 em id:String
-        let str_id: &str = &string_id; //transformando id:String em id:&str
+    //     let string_id: String = self.get_id().to_string().clone(); //transformando id:u32 em id:String
+    //     let str_id: &str = &string_id; //transformando id:String em id:&str
 
-        let string_id_departamento: String = self.get_id_departamento().to_string().clone(); //transformando id_departamento:u32 em String
-        let str_id_departamento: &str = &string_id_departamento; //transformando id_departamento:String em &str
+    //     let string_id_departamento: String = self.get_id_departamento().to_string().clone(); //transformando id_departamento:u32 em String
+    //     let str_id_departamento: &str = &string_id_departamento; //transformando id_departamento:String em &str
 
-        let nome: &str = &self.get_nome().clone();
-        let cpf: &str = &self.get_cpf().clone();
-        let endereco: &str = &self.get_endereco().clone();
-        let gender: char = self.get_genero().clone();
-        let nascimento: &str = &self.get_nascimento().clone();
+    //     let nome: &str = &self.get_nome().clone();
+    //     let cpf: &str = &self.get_cpf().clone();
+    //     let endereco: &str = &self.get_endereco().clone();
+    //     let gender: char = self.get_genero().clone();
+    //     let nascimento: &str = &self.get_nascimento().clone();
 
-        atributos.push_str(str_id);
-        atributos.push(',');
-        atributos.push_str(nome);
-        atributos.push(',');
-        atributos.push_str(cpf);
-        atributos.push(',');
-        atributos.push_str(endereco);
-        atributos.push(',');
-        atributos.push(gender);
-        atributos.push(',');
-        atributos.push_str(nascimento);
-        atributos.push(',');
-        atributos.push_str(str_id_departamento);
+    //     atributos.push_str(str_id);
+    //     atributos.push(',');
+    //     atributos.push_str(nome);
+    //     atributos.push(',');
+    //     atributos.push_str(cpf);
+    //     atributos.push(',');
+    //     atributos.push_str(endereco);
+    //     atributos.push(',');
+    //     atributos.push(gender);
+    //     atributos.push(',');
+    //     atributos.push_str(nascimento);
+    //     atributos.push(',');
+    //     atributos.push_str(str_id_departamento);
 
-        atributos
-    }
+    //     atributos
+    // }
 }

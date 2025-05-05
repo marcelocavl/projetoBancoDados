@@ -24,10 +24,10 @@ fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
 
         match op {
             "1" => {
-                listar_funcionarios(&mut funcionarios);
+                listar_funcionarios(&mut funcionarios)?;
             }
             "2" => {
-                adicionar_funcionario_interativo(&mut funcionarios, &mut proximo_id);
+                adicionar_funcionario_interativo(&mut funcionarios, &mut proximo_id)?;
             }
             "3" => {
                 listar_funcionarios(&mut funcionarios)?;
