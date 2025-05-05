@@ -257,4 +257,164 @@ pub fn salvar_funcionarios(caminho: &str, funcionarios: &mut Vec<Funcionario>, p
 
 // CRUD DE PROJETOS
 
+pub fn adicionar_projeto_interativo(projetos: &mut Vec<Projeto>, proximo_id: &mut u32) -> io::Result<()> {
+    println!("\nAdicione as informações do novo projeto...");
+    let nome_projeto = ler_input("Nome do projeto: ");
+    let id_departamento = ler_input("ID do departamento responsável: ").parse().unwrap_or(0);
+    let local = ler_input("Local do projeto: ");
+
+    let novo_projeto = Projeto::new(*proximo_id, nome_projeto.clone(), id_departamento, local);
+
+    projetos.push(novo_projeto);
+
+    println!("Projeto '{}' cadastrado com ID {}.", nome_projeto, *proximo_id);
+    *proximo_id += 1;
+
+    Ok(())
+}
+
+fn achar_projeto_por_id(projetos: &mut Vec<Projeto>, id: u32) -> Option<usize> {
+    if projetos.is_empty() {
+        return None; // Retorna None se a lista estiver vazia
+    }
+    projetos.iter_mut().position(|projeto: &mut Projeto| *projeto.get_id_projeto() == id)
+}
+
+fn deletar_projeto_por_id(projetos: &mut Vec<Projeto>, id: u32) -> bool {
+    if let Some(pos) = projetos.iter_mut().position(|projeto: &mut Projeto| *projeto.get_id_projeto() == id) {
+        projetos.remove(pos);
+        true
+    } else {
+        false // Retorna false se o projeto com o id não foi encontrado
+    }
+}
+
+pub fn atualizar_projeto_por_id(id_alvo: u32, projetos: &mut Vec<Projeto>) -> io::Result<()> {
+    if let Some(n) = achar_projeto_por_id(projetos, id_alvo) {
+        let id_projeto = projetos[n].get_id_projeto().clone();
+        let mut nome_projeto = projetos[n].get_nome_projeto().clone();
+        let mut id_departamento = projetos[n].get_id_departamento().clone();
+        let mut local = projetos[n].get_local().clone();
+
+        println!("--- Editando projeto ID {} ---", id_projeto);
+        loop {
+            println!("\nCampos disponíveis para edição:");
+            println!("1 - Nome do projeto: {}", nome_projeto);
+            println!("2 - ID do departamento: {}", id_departamento);
+            println!("3 - Local: {}", local);
+            println!("0 - Finalizar edição");
+
+            let opcao = ler_input("Escolha o número do campo para editar: ");
+
+            match opcao.trim() {
+                "1" => {
+                    projetos[n].set_nome_projeto(ler_input("Novo nome do projeto: "));
+                    nome_projeto = projetos[n].get_nome_projeto().clone();
+                }
+                "2" => {
+                    projetos[n].set_id_departamento(
+                        ler_input("Novo ID do departamento: ").parse().unwrap_or(id_departamento),
+                    );
+                    id_departamento = projetos[n].get_id_departamento().clone();
+                }
+                "3" => {
+                    projetos[n].set_local(ler_input("Novo local: "));
+                    local = projetos[n].get_local().clone();
+                }
+                "0" => break,
+                _ => println!("Opção inválida."),
+            };
+        }
+    } else {
+        println!("Projeto com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn remover_projeto_por_id(id_alvo: u32, projetos: &mut Vec<Projeto>) -> io::Result<()> {
+    if deletar_projeto_por_id(projetos, id_alvo) {
+        println!("Projeto com ID {} removido.", id_alvo);
+    } else {
+        println!("Projeto com ID {} não encontrado.", id_alvo);
+        return Ok(());
+    }
+
+    Ok(())
+}
+
+pub fn listar_projetos(projetos: &mut Vec<Projeto>) -> io::Result<()> {
+    if projetos.is_empty() {
+        println!("Nenhum projeto cadastrado.");
+        return Ok(());
+    }
+
+    println!("");
+    println!(
+        "{:<4} {:<25} {:<15} {:<35}",
+        "| ID", "| Nome do Projeto", "| ID Departamento", "| Local"
+    );
+    println!("{}", "-".repeat(80));
+
+    for projeto in projetos {
+        println!(
+            "| {:<3}| {:<24}| {:<14}| {:<34}",
+            projeto.get_id_projeto().clone(),
+            projeto.get_nome_projeto().clone(),
+            projeto.get_id_departamento().clone(),
+            projeto.get_local().clone()
+        );
+    }
+
+    Ok(())
+}
+
+pub fn carregar_projetos(caminho: &str) -> io::Result<(Vec<Projeto>, u32)> {
+    let arquivo = File::open(caminho)?;
+    let mut leitor = BufReader::new(arquivo);
+    let mut primeira_linha = String::new();
+
+    leitor.read_line(&mut primeira_linha)?;
+    let proximo_id: u32 = primeira_linha.trim().parse().unwrap_or(1);
+
+    let mut lista_projetos = Vec::new();
+
+    for linha in leitor.lines().flatten() {
+        let campos: Vec<&str> = linha.split(';').collect();
+        if campos.len() != 4 {
+            continue;
+        }
+
+        let projeto = Projeto::new(
+            campos[0].parse().unwrap_or(0),
+            campos[1].to_string(),
+            campos[2].parse().unwrap_or(0),
+            campos[3].to_string(),
+        );
+
+        lista_projetos.push(projeto);
+    }
+
+    Ok((lista_projetos, proximo_id))
+}
+
+pub fn salvar_projetos(caminho: &str, projetos: &mut Vec<Projeto>, proximo_id: u32) -> io::Result<()> {
+    let mut conteudo = format!("{}\n", proximo_id);
+
+    for projeto in projetos {
+        conteudo.push_str(&format!(
+            "{};{};{};{}\n",
+            projeto.get_id_projeto().clone(),
+            projeto.get_nome_projeto().clone(),
+            projeto.get_id_departamento().clone(),
+            projeto.get_local().clone()
+        ));
+    }
+
+    std::fs::write(caminho, conteudo)?;
+    Ok(())
+}
+
+
 // CRUD DE DEPARTAMENTOS

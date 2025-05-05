@@ -76,8 +76,73 @@ fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
 }
 
 fn gerenciar_projetos(caminho: &str) -> io::Result<()> {
-	// Menu de gerenciamento de projetos
-	Ok(())
+    let (mut projetos, mut proximo_id) = carregar_projetos(caminho)?;
+
+    loop {
+        println!("\n========= PROJETOS =========");
+        println!("1 - Listar projetos");
+        println!("2 - Criar projeto");
+        println!("3 - Editar projeto");
+        println!("4 - Remover projeto");
+        println!("0 - Sair");
+        print!("Escolha uma opção: ");
+        io::stdout().flush()?;
+
+        let mut opcao = String::new();
+        io::stdin().read_line(&mut opcao)?;
+        let op: &str = opcao.trim();
+
+        match op {
+            "1" => {
+                listar_projetos(&mut projetos)?;
+            }
+            "2" => {
+                adicionar_projeto_interativo(&mut projetos, &mut proximo_id)?;
+            }
+            "3" => {
+                listar_projetos(&mut projetos)?;
+                let id: u32 = ler_input("Digite o ID do projeto que deseja atualizar: ")
+                    .parse()
+                    .unwrap_or(0);
+                atualizar_projeto_por_id(id, &mut projetos)?;
+            }
+            "4" => {
+                listar_projetos(&mut projetos)?;
+                let id: u32 = ler_input("Digite o ID do projeto que deseja remover: ")
+                    .parse()
+                    .unwrap_or(0);
+                remover_projeto_por_id(id, &mut projetos)?;
+            }
+            "0" => {
+                println!("\nSalvar as alterações?");
+                println!("1 - Sim, salvar alterações");
+                println!("2 - Não, descartar alterações");
+                println!("0 - Cancelar");
+                print!("Escolha uma opção: ");
+                io::stdout().flush()?;
+
+                opcao.clear();
+                io::stdin().read_line(&mut opcao)?;
+                let op = opcao.trim();
+
+                match op {
+                    "1" => {
+                        salvar_projetos(caminho, &mut projetos, proximo_id)?;
+                        println!("Alterações salvas. Saindo...");
+                        break;
+                    }
+                    "2" => {
+                        println!("Alterações descartadas. Saindo...");
+                        break;
+                    }
+                    "0" => {}
+                    _ => println!("Opção inválida."),
+                }
+            }
+            _ => println!("Opção inválida."),
+        }
+    }
+    Ok(())
 }
 
 fn gerenciar_departamentos(caminho: &str) -> io::Result<()> {
@@ -99,6 +164,7 @@ fn main() -> std::io::Result<()> {
     loop {
         println!("\n========= GERENCIAR EMPRESA =========");
         println!("1 - Gerenciar funcionários");
+		println!("2 - Gerenciar projetos");
         println!("0 - Sair");
         print!("Escolha uma opção: ");
         io::stdout().flush()?;
