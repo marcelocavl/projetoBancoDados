@@ -1,11 +1,14 @@
 use crate::includes::classes::funcionario::Funcionario;
 use crate::includes::classes::departamento::Departamento;
 use crate::includes::classes::projeto::Projeto;
+use crate::includes::utils::validator::{self, Validator}; // Importa o módulo Validator
+
 
 use std::io::{self, BufRead, BufReader, Write};
 use std::fs::File;
 use std::path::Path;
 
+const VALIDATOR:validator::Validator = Validator::new(); // Instancia o Validator
 pub fn ler_input(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().unwrap();
@@ -35,11 +38,17 @@ pub fn criar_arquivo(caminho: &str) -> io::Result<()> {
 // CRUD DE FUNCIONARIOS
 
 pub fn adicionar_funcionario_interativo(funcionarios: &mut Vec<Funcionario>, proximo_id: &mut u32) -> io::Result<()> {
+    
     // Lê todas as linhas do arquivo
     println!("\nAdicione as informações do novo funcionário...");
     // Solicita os dados ao usuário
     let nome: String = ler_input("Nome: ");
-    let cpf: String = ler_input("CPF: ");
+    let mut cpf: String = ler_input("CPF: ");
+
+    while !VALIDATOR.funcionario.cpf(&cpf){
+        println!("CPF inválido. Tente novamente.");
+        cpf = ler_input("CPF: ");
+    }
     let endereco: String = ler_input("Endereço: ");
     let salario: f64 = ler_input("Salário: ").parse().unwrap_or(0.0);
     let genero: char = ler_input("Gênero (M/F): ").chars().next().unwrap_or('?');
