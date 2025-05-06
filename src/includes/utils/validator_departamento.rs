@@ -5,9 +5,6 @@ impl ValidatorDepartamento {
         ValidatorDepartamento {}
     }
 
-    pub fn id(&self,id: u32) -> bool {
-        return id > 0
-    }
     pub fn nome(&self,nome: &str) -> bool {
         if nome.len() < 3 {
             return false;

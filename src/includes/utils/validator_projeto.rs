@@ -4,9 +4,7 @@ impl ValidatorProjeto {
     pub const fn new() -> Self {
         ValidatorProjeto{}
     }
-    pub fn validate_id(&self,id: u32) -> bool {
-        return id > 0
-    }
+
 
     pub fn nome(&self,nome: &str) -> bool {
         if nome.len() < 3 {
