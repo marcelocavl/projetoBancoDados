@@ -4,11 +4,14 @@ use crate::includes::classes::projeto::Projeto;
 use crate::includes::utils::validator::{self, Validator}; // Importa o módulo Validator
 
 
+
+
 use std::io::{self, BufRead, BufReader, Write};
 use std::fs::File;
 use std::path::Path;
 
 const VALIDATOR:validator::Validator = Validator::new(); // Instancia o Validator
+
 pub fn ler_input(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().unwrap();
@@ -34,7 +37,6 @@ pub fn criar_arquivo(caminho: &str) -> io::Result<()> {
 }
 
 
-
 // CRUD DE FUNCIONARIOS
 
 pub fn adicionar_funcionario_interativo(funcionarios: &mut Vec<Funcionario>, proximo_id: &mut u32) -> io::Result<()> {
@@ -42,18 +44,51 @@ pub fn adicionar_funcionario_interativo(funcionarios: &mut Vec<Funcionario>, pro
     // Lê todas as linhas do arquivo
     println!("\nAdicione as informações do novo funcionário...");
     // Solicita os dados ao usuário
-    let nome: String = ler_input("Nome: ");
-    let mut cpf: String = ler_input("CPF: ");
+    let nome: String = VALIDATOR.string(
+        "Nome: ",
+        |input|VALIDATOR.funcionario.nome(input),
+        "Nome inválido. Tente novamente.",
+        ler_input,
+    );
 
-    while !VALIDATOR.funcionario.cpf(&cpf){
-        println!("CPF inválido. Tente novamente.");
-        cpf = ler_input("CPF: ");
-    }
-    let endereco: String = ler_input("Endereço: ");
-    let salario: f64 = ler_input("Salário: ").parse().unwrap_or(0.0);
-    let genero: char = ler_input("Gênero (M/F): ").chars().next().unwrap_or('?');
-    let nascimento: String = ler_input("Nascimento (YYYY-MM-DD): ");
-    let id_departamento: u32 = ler_input("ID do departamento: ").parse().unwrap_or(0);
+    let  cpf: String = VALIDATOR.string(
+        "CPF: ",
+        |input|VALIDATOR.funcionario.cpf(input),
+        "CPF inválido. Tente novamente.",
+        ler_input,
+    );
+    let endereco: String = VALIDATOR.string(
+        "Endereço: ",
+        |input|VALIDATOR.funcionario.endereco(input),
+        "Endereço inválido. Tente novamente.",
+        ler_input,
+    );
+
+    let salario: f64 = VALIDATOR.float(
+        "Salário: ",
+        |input|VALIDATOR.funcionario.salario(input),
+        "Salário inválido. Tente novamente.",
+        ler_input,
+    );
+
+    let genero: char = VALIDATOR.char(
+        "Gênero(M/F): ",
+        |input|VALIDATOR.funcionario.gender(input),
+        "Gênero inválido. Tente novamente.",
+        ler_input,
+    );
+    let nascimento: String = VALIDATOR.string(
+        "Nascimento (YYYY-MM-DD): ",
+        |input|VALIDATOR.funcionario.nascimento(input),
+        "Data inválida. Tente novamente.",
+        ler_input,
+    );
+    let id_departamento: u32 = VALIDATOR.numero(
+        "ID do departamento: ",
+        |input|VALIDATOR.funcionario.id_departamento(input),
+        "ID inválido. Tente novamente.",
+        ler_input,
+    );
 
     let novo_funcionario: Funcionario = Funcionario::new(
         *proximo_id,
@@ -118,42 +153,64 @@ pub fn atualizar_funcionario_por_id(id_alvo: u32, funcionarios: &mut Vec<Funcion
 
             match opcao.trim() {
                 "1" => {
-                    funcionarios[n].set_nome(ler_input("Novo nome: "));
+                    funcionarios[n].set_nome(VALIDATOR.string("Novo nome: ",
+                        |input|VALIDATOR.funcionario.nome(input),
+                        "Nome inválido. Tente novamente.",
+                        ler_input,
+                    ));
                     nome = funcionarios[n].get_nome().clone(); // Atualiza o nome
                 }
                 "2" => {
-                    funcionarios[n].set_cpf(ler_input("Novo CPF: "));
+                    funcionarios[n].set_cpf(VALIDATOR.string("Novo CPF: ",
+                    |input|VALIDATOR.funcionario.cpf(input),
+                    "CPF inválido. Tente novamente.",
+                    ler_input,
+                ));
                     cpf = funcionarios[n].get_cpf().clone(); // Atualiza o CPF
                 }
                 "3" => {
-                    funcionarios[n].set_endereco(ler_input("Novo endereço: "));
+                    funcionarios[n].set_endereco( VALIDATOR.string("Novo endereço: ",
+                        |input|VALIDATOR.funcionario.endereco(input),
+                        "Endereço inválido. Tente novamente.",
+                        ler_input
+                    ));
                     endereco = funcionarios[n].get_endereco().clone(); // Atualiza o endereço
                 }
                 "4" => {
                     funcionarios[n]
-                        .set_salario(ler_input("Novo salário: ").parse().unwrap_or(salario));
+                        .set_salario( VALIDATOR.float("Novo salário: ",
+                            |input|VALIDATOR.funcionario.salario(input),
+                            "Salário inválido. Tente novamente.",
+                            ler_input
+                        ));
                     salario = funcionarios[n].get_salario().clone(); // Atualiza o salário
                 }
                 "5" => {
                     funcionarios[n].set_genero(
-                        ler_input("Novo gênero (M/F): ")
-                            .chars()
-                            .next()
-                            .unwrap_or(genero),
+                        VALIDATOR.char("Novo gênero (M/F): ",
+                            |input|VALIDATOR.funcionario.gender(input),
+                            "Gênero inválido. Tente novamente.",
+                            ler_input)
                     );
                     genero = funcionarios[n].get_genero().clone(); // Atualiza o gênero
                 }
                 "6" => {
                     funcionarios[n]
-                        .set_nascimento(ler_input("Novo nascimento (YYYY-MM-DD): "));
+                        .set_nascimento(VALIDATOR.string("Novo nascimento (YYYY-MM-DD): ",
+                            |input|VALIDATOR.funcionario.nascimento(input),
+                            "Data inválida. Tente novamente.",
+                            ler_input,
+                        ));
                     nascimento = funcionarios[n].get_nascimento().clone(); // Atualiza o nascimento
                 }
                 "7" => {
                     funcionarios[n].set_id_departamento(
-                        ler_input("Novo ID do departamento: ")
-                            .parse()
-                            .unwrap_or(id_departamento),
-                    );
+                        VALIDATOR.numero("Novo ID do departamento: ",
+                            |input|VALIDATOR.funcionario.id_departamento(input),
+                            "ID inválido. Tente novamente.",
+                            ler_input,
+                        ));
+                    
                     id_departamento = funcionarios[n].get_id_departamento().clone(); // Atualiza o ID do departamento
                 }
                 "0" => break,
@@ -268,9 +325,24 @@ pub fn salvar_funcionarios(caminho: &str, funcionarios: &mut Vec<Funcionario>, p
 
 pub fn adicionar_projeto_interativo(projetos: &mut Vec<Projeto>, proximo_id: &mut u32) -> io::Result<()> {
     println!("\nAdicione as informações do novo projeto...");
-    let nome_projeto: String = ler_input("Nome do projeto: ");
-    let id_departamento: u32 = ler_input("ID do departamento responsável: ").parse().unwrap_or(0);
-    let local: String = ler_input("Local do projeto: ");
+    let nome_projeto: String = VALIDATOR.string(
+        "Nome do projeto: ",
+        |input|VALIDATOR.projeto.nome(input),
+        "Nome inválido. Tente novamente.",
+        ler_input,
+    );
+    let id_departamento: u32 = VALIDATOR.numero(
+        "ID do departamento: ",
+        |input|VALIDATOR.projeto.id_departamento(input),
+        "ID inválido. Tente novamente.",
+        ler_input,
+    );
+    let local: String = VALIDATOR.string(
+        "Local: ",
+        |input|VALIDATOR.projeto.local(input),
+        "Local inválido. Tente novamente.",
+        ler_input,
+    );
 
     let novo_projeto: Projeto = Projeto::new(*proximo_id, nome_projeto.clone(), id_departamento, local);
 
@@ -317,17 +389,32 @@ pub fn atualizar_projeto_por_id(id_alvo: u32, projetos: &mut Vec<Projeto>) -> io
 
             match opcao.trim() {
                 "1" => {
-                    projetos[n].set_nome_projeto(ler_input("Novo nome do projeto: "));
+                    projetos[n].set_nome_projeto( 
+                        VALIDATOR.string("Novo nome do projeto: ",
+                            |input|VALIDATOR.projeto.nome(input),
+                            "Nome inválido. Tente novamente.",
+                            ler_input,
+                        ));
                     nome_projeto = projetos[n].get_nome_projeto().clone();
                 }
                 "2" => {
                     projetos[n].set_id_departamento(
-                        ler_input("Novo ID do departamento: ").parse().unwrap_or(id_departamento),
+                        VALIDATOR.numero("Novo ID do departamento: ",
+                            |input|VALIDATOR.projeto.id_departamento(input),
+                            "ID inválido. Tente novamente.",
+                            ler_input,
+                        )
                     );
                     id_departamento = projetos[n].get_id_departamento().clone();
                 }
                 "3" => {
-                    projetos[n].set_local(ler_input("Novo local: "));
+                    projetos[n].set_local(
+                        VALIDATOR.string("Novo local: ",
+                            |input|VALIDATOR.projeto.local(input),
+                            "Local inválido. Tente novamente.",
+                            ler_input,
+                        )
+                    );
                     local = projetos[n].get_local().clone();
                 }
                 "0" => break,
@@ -430,8 +517,18 @@ pub fn salvar_projetos(caminho: &str, projetos: &mut Vec<Projeto>, proximo_id: u
 
 pub fn adicionar_departamento_interativo(departamentos: &mut Vec<Departamento>, proximo_id: &mut u32) -> io::Result<()> {
     println!("\nAdicione as informações do novo departamento...");
-    let nome_departamento: String = ler_input("Nome do departamento: ");
-    let id_gerente: u32 = ler_input("ID do gerente responsável: ").parse().unwrap_or(0);
+    let nome_departamento: String = VALIDATOR.string(
+        "Nome do departamento: ",
+        |input|VALIDATOR.departamento.nome(input),
+        "Nome inválido. Tente novamente.",
+        ler_input,
+    );
+    let id_gerente: u32 = VALIDATOR.numero(
+        "ID do gerente: ",
+        |input|VALIDATOR.departamento.id_gerente(input),
+        "ID inválido. Tente novamente.",
+        ler_input,
+    );
 
     let novo_departamento: Departamento = Departamento::new(*proximo_id, nome_departamento.clone(), id_gerente);
 
@@ -476,12 +573,21 @@ pub fn atualizar_departamento_por_id(id_alvo: u32, departamentos: &mut Vec<Depar
 
             match opcao.trim() {
                 "1" => {
-                    departamentos[n].set_nome(ler_input("Novo nome do departamento: "));
+                    departamentos[n].set_nome(
+                        VALIDATOR.string("Novo nome do departamento: ",
+                            |input|VALIDATOR.departamento.nome(input),
+                            "Nome inválido. Tente novamente.",
+                            ler_input,
+                        ));
                     nome_departamento = departamentos[n].get_nome().clone();
                 }
                 "2" => {
                     departamentos[n].set_id_gerente(
-                        ler_input("Novo ID do gerente: ").parse().unwrap_or(id_gerente),
+                        VALIDATOR.numero("Novo ID do gerente: ",
+                            |input|VALIDATOR.departamento.id_gerente(input),
+                            "ID inválido. Tente novamente.",
+                            ler_input,
+                        )
                     );
                     id_gerente = departamentos[n].get_id_gerente().clone();
                 }

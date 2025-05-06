@@ -1,24 +1,25 @@
-pub struct Validator_Projeto;
+pub struct ValidatorProjeto;
 
-impl Validator_Projeto {
+impl ValidatorProjeto {
     pub const fn new() -> Self {
-        Validator_Projeto{}
+        ValidatorProjeto{}
     }
-    pub fn validate_id(id: u32) -> bool {
+    pub fn validate_id(&self,id: u32) -> bool {
         return id > 0
     }
 
-    pub fn nome(nome: &str) -> bool {
+    pub fn nome(&self,nome: &str) -> bool {
         if nome.len() < 3 {
             return false;
         }
         return true;
     }
 
-    pub fn validate_id_gerente(id_gerente: u32) -> bool {
-        return id_gerente > 0
+    pub fn id_departamento(&self,id_departamento: u32) -> bool {
+        return id_departamento > 0
     }
-    pub fn local(local: &str) -> bool {
+
+    pub fn local(&self,local: &str) -> bool {
         if local.len() < 5 {
             return false;
         }

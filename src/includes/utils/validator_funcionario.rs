@@ -1,12 +1,18 @@
 // Validator.rs
 
-pub struct Validator_Funcionario;
+pub struct ValidatorFuncionario;
 
-impl Validator_Funcionario {
+impl ValidatorFuncionario {
     pub const fn new() -> Self {
-        Validator_Funcionario {}
+        ValidatorFuncionario {}
     }
     pub fn cpf(&self,cpf: &str) -> bool {
+        if cpf.len() != 14 {
+            return false;
+        }
+        if !cpf.chars().all(|c| c.is_digit(10) || c == '.' || c == '-') {
+            return false;
+        }
         let cpf = cpf.chars().filter(|c| c.is_digit(10)).collect::<String>();
 
         if cpf.len() != 11 || cpf.chars().all(|c| c == cpf.chars().next().unwrap()) {
@@ -37,45 +43,55 @@ impl Validator_Funcionario {
         // Verifica se os dígitos calculados batem com os informados
         return first_digit == digits[9] && second_digit == digits[10];
     }
-    pub fn gender(gender: char) -> bool {
-        if(gender != 'M' || gender != 'F'){
+    pub fn gender(&self,gender: char) -> bool {
+        if gender != 'M' && gender != 'F'{
             return false;
         }
         return true;
     }
-    pub fn salario(salario: f64) -> bool {
-        if(salario < 0.0){
+    pub fn salario(&self,salario: f64) -> bool {
+        if salario < 0.0 {
             return false;
         }
+        
         return true;
     }
-    pub fn nascimento(nascimento: &str) -> bool {
-        let parts: Vec<&str> = nascimento.split('/').collect();
+    pub fn nascimento(&self,nascimento: &str) -> bool {
+        let parts: Vec<&str> = nascimento.split('-').collect();
         if parts.len() != 3 {
             return false;
         }
-        let dia: u32 = parts[0].parse().unwrap_or(0);
+
+        if parts[0].len() != 4 || parts[1].len() != 2 || parts[2].len() != 2 {
+            return false;
+        }
+        if !parts[0].chars().all(|c| c.is_digit(10)) ||
+           !parts[1].chars().all(|c| c.is_digit(10)) ||
+           !parts[2].chars().all(|c| c.is_digit(10)) {
+            return false;
+        }
+        let ano: u32 = parts[0].parse().unwrap_or(0);
         let mes: u32 = parts[1].parse().unwrap_or(0);
-        let ano: u32 = parts[2].parse().unwrap_or(0);
+        let dia: u32 = parts[2].parse().unwrap_or(0);
 
         if dia < 1 || dia > 31 || mes < 1 || mes > 12 || ano < 1900 {
             return false;
         }
         return true;
     }
-    pub fn endereco(endereco: &str) -> bool {
+    pub fn endereco(&self,endereco: &str) -> bool {
         if endereco.len() < 5 {
             return false;
         }
         return true;
     }
-    pub fn nome(nome: &str) -> bool {
+    pub fn nome(&self,nome: &str) -> bool {
         if nome.len() < 3 {
             return false;
         }
         return true;
     }
-    pub fn id_departamento(id_departamento: u32) -> bool {
+    pub fn id_departamento(&self,id_departamento: u32) -> bool {
         if id_departamento < 1 {
             return false;
         }
