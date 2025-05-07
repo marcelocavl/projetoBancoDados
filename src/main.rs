@@ -1,7 +1,7 @@
 mod includes;
-// mod menu;
 mod crud;
 use crud::*;
+use includes::classes::funcionarios_arquivo_csv::FuncionariosArquivoCSV;
 
 use std::io::{self, Write};
 
@@ -58,6 +58,8 @@ fn gerenciar_funcionarios(caminho: &str) -> io::Result<()> {
                 match op {
                     "1" => {
                         salvar_funcionarios(caminho, &mut funcionarios, proximo_id)?;
+                        let mut funcionarios_csv: FuncionariosArquivoCSV = FuncionariosArquivoCSV::new(funcionarios.clone(), "funcionarios.csv");
+                        funcionarios_csv.atualizar_txt();
                         println!("Alterações salvas. Saindo...");
                         break;
                     }
@@ -221,9 +223,11 @@ fn main() -> std::io::Result<()> {
     let caminho_funcionarios: &str = "funcionarios.txt";
     let caminho_projetos: &str = "projetos.txt";
     let caminho_departamentos: &str = "departamentos.txt";
+    let caminho_funcionarios_csv: &str = "funcionarios.csv";
     criar_arquivo(caminho_funcionarios)?;
     criar_arquivo(caminho_projetos)?;
     criar_arquivo(caminho_departamentos)?;
+    criar_arquivo(caminho_funcionarios_csv)?;
 
 	// Menu principal de gerenciamento
     loop {

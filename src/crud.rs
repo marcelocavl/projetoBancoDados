@@ -1,7 +1,7 @@
 use crate::includes::classes::funcionario::Funcionario;
 use crate::includes::classes::departamento::Departamento;
 use crate::includes::classes::projeto::Projeto;
-use crate::includes::utils::validator::{self, Validator}; // Importa o módulo Validator
+use crate::includes::utils::validator::{self, Validator};
 
 
 
@@ -10,7 +10,7 @@ use std::io::{self, BufRead, BufReader, Write};
 use std::fs::File;
 use std::path::Path;
 
-const VALIDATOR:validator::Validator = Validator::new(); // Instancia o Validator
+const VALIDATOR:validator::Validator = Validator::new();
 
 pub fn ler_input(prompt: &str) -> String {
     print!("{}", prompt);

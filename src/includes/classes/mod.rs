@@ -4,3 +4,5 @@
 pub mod funcionario;
 pub mod projeto;
 pub mod departamento;
+pub mod funcionarios_arquivo_csv;
+
